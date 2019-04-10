@@ -3,4 +3,4 @@ image:
   tag: latest
 
 senzing:
-  subcommand: install
+  optSenzingClaim: XXXX
