@@ -1,6 +1,6 @@
 senzing:
   subcommand: "url-to-kafka"
-  kafkaBootstrapServerHost: "${KAFKA_HOST}"
+  kafkaBootstrapServerHost: kafka-external
   kafkaBootstrapServerPort: 9092
   kafkaTopic: senzing-kafka-topic
   inputUrl: "https://s3.amazonaws.com/public-read-access/TestDataSets/loadtest-dataset-1M.json"

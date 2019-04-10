@@ -3,7 +3,7 @@ senzing:
   databaseUrl: "${SENZING_DATABASE_URL}"
   dataSource: PEOPLE
   entityType: PEOPLE
-  kafkaBootstrapServerHost: "${KAFKA_HOST}"
+  kafkaBootstrapServerHost: kafka-external
   kafkaBootstrapServerPort: 9092
   kafkaTopic: senzing-kafka-topic
   logLevel: info
