@@ -16,13 +16,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Clone repository](#clone-repository)
     1. [Prerequisites](#prerequisites)
     1. [Set environment variables](#set-environment-variables)
-    1. [Create custom helm values.yaml files](#create-custom-helm-valuesyaml-files)
-    1. [Create custom kubernetes configuration files](#create-custom-kubernetes-configuration-files)
-    1. [Create namespace](#create-namespace)
-    1. [Create persistent volume](#create-persistent-volume)
     1. [Add helm repositories](#add-helm-repositories)
-    1. [Deploy Senzing_API.tgz package](#deploy-senzing_apitgz-package)
-    1. [Install DB2](#install-db2)
     1. [Initialize database](#initialize-database)
     1. [Install Kafka](#install-kafka)
     1. [Install Kafka test client](#install-kafka-test-client)
@@ -32,7 +26,6 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Test Senzing REST API server](#test-senzing-rest-api-server)
 1. [Cleanup](#cleanup)
     1. [Delete everything in project](#delete-everything-in-project)
-    1. [Delete minikube cluster](#delete-minikube-cluster)
 
 ## Expectations
 
@@ -83,55 +76,10 @@ This repository assumes a working knowledge of:
 1. Environment variables that need customization.  Example:
 
     ```console
-    export DEMO_PREFIX=my
-    export DEMO_NAMESPACE=${DEMO_PREFIX}-namespace
+    export DEMO_NAMESPACE=zen
     ```
 
 1. Set environment variables listed in "[Clone repository](#clone-repository)".
-
-### Create custom helm values.yaml files
-
-1. **FIXME:**
-
-1. Variation #1. Quick method using `envsubst`.
-
-    ```console
-    export HELM_VALUES_DIR=${GIT_REPOSITORY_DIR}/helm-values
-    mkdir -p ${HELM_VALUES_DIR}
-
-    for file in ${GIT_REPOSITORY_DIR}/helm-values-templates/*.yaml; \
-    do \
-      envsubst < "${file}" > "${HELM_VALUES_DIR}/$(basename ${file})";
-    done
-    ```
-
-### Create custom kubernetes configuration files
-
-1. Variation #1. Quick method using `envsubst`.
-
-    ```console
-    export KUBERNETES_DIR=${GIT_REPOSITORY_DIR}/kubernetes
-    mkdir -p ${KUBERNETES_DIR}
-
-    for file in ${GIT_REPOSITORY_DIR}/kubernetes-templates/*; \
-    do \
-      envsubst < "${file}" > "${KUBERNETES_DIR}/$(basename ${file})";
-    done
-    ```
-
-### Create namespace
-
-1. Create namespace.
-
-    ```console
-    kubectl create -f ${KUBERNETES_DIR}/namespace.yaml
-    ```
-
-1. Review namespaces.
-
-    ```console
-    kubectl get namespaces
-    ```
 
 ### Using Transport Layer Security
 
@@ -139,30 +87,6 @@ This repository assumes a working knowledge of:
 
     ```console
     export HELM_TLS="--tls"
-    ```
-
-### Create persistent volume
-
-1. Create persistent volumes.  Example:
-
-    ```console
-    kubectl create -f ${KUBERNETES_DIR}/persistent-volume-opt-senzing.yaml
-    ```
-
-1. Create persistent volume claims. Example:
-
-    ```console
-    kubectl create -f ${KUBERNETES_DIR}/persistent-volume-claim-opt-senzing.yaml
-    ```
-
-1. Review persistent volumes and claims.
-
-    ```console
-    kubectl get persistentvolumes \
-      --namespace ${DEMO_NAMESPACE}
-
-    kubectl get persistentvolumeClaims \
-      --namespace ${DEMO_NAMESPACE}
     ```
 
 ### Add helm repositories
@@ -220,24 +144,6 @@ This repository assumes a working knowledge of:
 
     export POD_NAME=my-senzing-package-sleep-XXXXXX
     kubectl exec -it --namespace ${DEMO_NAMESPACE} ${POD_NAME} -- /bin/bash
-    ```
-
-### Install DB2
-
-1. Install IBM DB2 Express-C.  Example:
-
-    ```console
-    helm install ${HELM_TLS} \
-      --name ${DEMO_PREFIX}-ibm-db2express-c \
-      --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/ibm-db2express-c.yaml \
-      senzing/ibm-db2express-c
-    ```
-
-1. Wait for pods to run. Example:
-
-    ```console
-    watch -n 5 -d kubectl get pods --namespace ${DEMO_NAMESPACE}
     ```
 
 ### Initialize database
@@ -383,22 +289,8 @@ See `kubectl port-forward ...` above.
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-stream-loader
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-mock-data-generator
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-kafka-test-client
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-kafka
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-ibm-db2express-c
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-package-sleep
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-package
     helm repo remove senzing
     helm repo remove bitnami
-    kubectl delete -f ${KUBERNETES_DIR}/persistent-volume-claim-opt-senzing.yaml
-    kubectl delete -f ${KUBERNETES_DIR}/persistent-volume-opt-senzing.yaml
-    kubectl delete -f ${KUBERNETES_DIR}/namespace.yaml
-    ```
-
-### Delete minikube cluster
-
-1. Example:
-
-    ```console
-    minikube stop
-    minikube delete
     ```
