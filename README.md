@@ -88,7 +88,9 @@ The Git repository has files that will be used in the `helm install --values` pa
         1. Using `curl`:
 
             ```console
-            curl -X GET --output /tmp/g2core-schema-db2-create.sql https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-create.sql
+            curl -X GET \
+              --output /tmp/g2core-schema-db2-create.sql \
+              https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-create.sql
             ```
 
     1. For **IBM Db2 BLU** use one of these techniques:
@@ -97,7 +99,9 @@ The Git repository has files that will be used in the `helm install --values` pa
         1. Using `curl`:
 
             ```console
-            curl -X GET --output /tmp/g2core-schema-db2-BLU-create.sql https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql
+            curl -X GET \
+              --output /tmp/g2core-schema-db2-BLU-create.sql \
+              https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql
             ```
 
 1. Variation #1. Create tables in the database using command line. Example:
