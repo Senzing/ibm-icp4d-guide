@@ -83,7 +83,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     db2 create database g2 using codeset utf-8 territory us
     ```
 
-1. Obtain the correct file of SQL commands:
+1. Obtain the correct file of SQL commands used to create :
     1. For **IBM Db2** use one of these techniques:
         1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql`
         1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-create.sql)
