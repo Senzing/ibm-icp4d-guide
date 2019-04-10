@@ -18,8 +18,6 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Set environment variables](#set-environment-variables)
     1. [Add helm repositories](#add-helm-repositories)
     1. [Initialize database](#initialize-database)
-    1. [Install Kafka](#install-kafka)
-    1. [Install Kafka test client](#install-kafka-test-client)
     1. [Install mock-data-generator](#install-mock-data-generator)
     1. [Install stream-loader](#install-stream-loader)
     1. [Install senzing-api-server](#install-senzing-api-server)
@@ -158,74 +156,33 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Initialize database
 
-1. Using the directions shown in the output from the previous step,
-   log into the IBM DB2 Express-C container.
-
-1. In the IBM DB2 Express-C container, run the following:
+1. If needed, create a database for Senzing data. Example:
 
     ```console
     su - db2inst1
     db2 create database g2 using codeset utf-8 territory us
+    ```
+
+1. **FIXME:** Craft instructions on how to obtain `g2core-schema-db2-create.sql`.
+
+1. Create tables in the database. Example:
+
+    ```console
+    su - db2inst1
     db2 connect to g2
-    db2 -tf /opt/senzing/g2/data/g2core-schema-db2-create.sql
+    db2 -tf g2core-schema-db2-create.sql
     db2 connect reset
-    exit
-    exit
     ```
-
-### Install Kafka
-
-1. Example:
-
-    ```console
-    helm install ${HELM_TLS} \
-      --name ${DEMO_PREFIX}-kafka \
-      --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/kafka.yaml \
-      bitnami/kafka
-    ```
-
-### Install Kafka test client
-
-1. Install Kafka test client app. Example:
-
-    ```console
-    helm install ${HELM_TLS} \
-      --name ${DEMO_PREFIX}-kafka-test-client \
-      --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/kafka-test-client.yaml \
-      senzing/kafka-test-client
-    ```
-
-1. Wait for pods to run. Example:
-
-    ```console
-    watch -n 5 -d kubectl get pods --namespace ${DEMO_NAMESPACE}
-    ```
-
-1. Run the test client. Run in a separate terminal window. Example:
-
-    ```console
-    export DEMO_PREFIX=my
-    export DEMO_NAMESPACE=${DEMO_PREFIX}-namespace
-    export POD_NAME=$(kubectl get pods --namespace ${DEMO_NAMESPACE}-namespace -l "app.kubernetes.io/name=kafka-test-client,app.kubernetes.io/instance=${DEMO_NAMESPACE}-kafka-test-client" -o jsonpath="{.items[0].metadata.name}")
-
-    kubectl exec \
-      -it \
-      --namespace ${DEMO_NAMESPACE} \
-      ${POD_NAME} -- /usr/bin/kafka-console-consumer \
-        --bootstrap-server ${DEMO_PREFIX}-kafka:9092 \
-        --topic senzing-kafka-topic \
-        --from-beginning
-    ```  
 
 ### Install mock-data-generator
 
+This component reads JSON LINES from file and pushes to Kafka.
+
 1. Example:
 
     ```console
     helm install ${HELM_TLS} \
-      --name ${DEMO_PREFIX}-senzing-mock-data-generator \
+      --name senzing-mock-data-generator \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/mock-data-generator.yaml \
       senzing/senzing-mock-data-generator
@@ -233,11 +190,13 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Install stream-loader
 
+This component reads from Kafka topic and sends to Senzing which populates the DB2 database.
+
 1. Example:
 
     ```console
     helm install ${HELM_TLS} \
-      --name ${DEMO_PREFIX}-senzing-stream-loader \
+      --name senzing-stream-loader \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/stream-loader-db2.yaml \
       senzing/senzing-stream-loader
@@ -245,11 +204,14 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Install senzing-api-server
 
+This component creates an HTTP service that implements the
+[Senzing REST API](https://github.com/Senzing/senzing-rest-api).
+
 1. Example:
 
     ```console
     helm install ${HELM_TLS} \
-      --name ${DEMO_PREFIX}-senzing-api-server \
+      --name senzing-api-server \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-api-server-db2.yaml \
       senzing/senzing-api-server
@@ -264,8 +226,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Port forward to local machine.  Run in a separate terminal window. Example:
 
     ```console
-    export DEMO_PREFIX=my
-    export DEMO_NAMESPACE=${DEMO_PREFIX}-namespace
+    export DEMO_NAMESPACE=zen
 
     kubectl port-forward \
       --address 0.0.0.0 \
@@ -298,7 +259,6 @@ See `kubectl port-forward ...` above.
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-api-server
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-stream-loader
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-mock-data-generator
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-kafka-test-client
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-package-sleep
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-package
     helm repo remove senzing
