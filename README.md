@@ -179,12 +179,6 @@ The Git repository has files that will be used in the `helm install --values` pa
     export DEMO_NAMESPACE=zen
     ```
 
-1. Identify Helm values files location. Example:
-
-    ```console
-    export HELM_VALUES_DIR=${GIT_REPOSITORY_DIR}/helm-values
-    ```
-
 1. If you are using Transport Layer Security (TLS), then set the following environment variable:
 
     ```console
@@ -232,10 +226,10 @@ The Git repository has files that will be used in the `helm install --values` pa
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-package)
     1. [Docker](https://hub.docker.com/r/senzing/senzing-package)
 
-1. Review helm values in `${HELM_VALUES_DIR}/senzing-package.yaml`.
+1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-package.yaml`.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
-1. Review helm values in `${HELM_VALUES_DIR}/senzing-package-sleep.yaml`.
+1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-package-sleep.yaml`.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
 1. Perform Helm install. Example:
@@ -244,7 +238,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm install ${HELM_TLS} \
       --name senzing-package \
       --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-package.yaml \
+      --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-package.yaml \
       senzing/senzing-package
     ```
 
@@ -254,7 +248,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm install ${HELM_TLS} \
       --name senzing-package-sleep \
       --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-package-sleep.yaml \
+      --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-package-sleep.yaml \
       senzing/senzing-package
     ```
 
@@ -274,7 +268,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-mock-data-generator)
     1. [Docker](https://hub.docker.com/r/senzing/mock-data-generator)
 
-1. Review helm values in `${HELM_VALUES_DIR}/mock-data-generator.yaml`.
+1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/mock-data-generator.yaml`.
     1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
     1. `senzing.inputUrl` is a URL addressable file of JSON LINES. (e.g. `file://`, `http://`).
     1. `senzing.recordMax` is the maximum number of JSON LINES to read from the file.  Remove or 0 to read all lines.
@@ -285,7 +279,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm install ${HELM_TLS} \
       --name senzing-mock-data-generator \
       --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/mock-data-generator.yaml \
+      --values ${GIT_REPOSITORY_DIR}/helm-values/mock-data-generator.yaml \
       senzing/senzing-mock-data-generator
     ```
 
@@ -298,7 +292,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-stream-loader)
     1. [Docker](https://hub.docker.com/r/senzing/stream-loader)
 
-1. Review helm values in `${HELM_VALUES_DIR}/stream-loader.yaml`.
+1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/stream-loader.yaml`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
@@ -309,7 +303,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm install ${HELM_TLS} \
       --name senzing-stream-loader \
       --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/stream-loader.yaml \
+      --values ${GIT_REPOSITORY_DIR}/helm-values/stream-loader.yaml \
       senzing/senzing-stream-loader
     ```
 
@@ -323,7 +317,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-api-server)
     1. [Docker](https://hub.docker.com/r/senzing/senzing-api-server)
 
-1. Review helm values in `${HELM_VALUES_DIR}/senzing-api-server`.
+1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-api-server`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
@@ -333,7 +327,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm install ${HELM_TLS} \
       --name senzing-api-server \
       --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-api-server.yaml \
+      --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-api-server.yaml \
       senzing/senzing-api-server
     ```
 
@@ -382,5 +376,4 @@ See `kubectl port-forward ...` above.
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-package-sleep
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-package
     helm repo remove senzing
-    helm repo remove bitnami
     ```
