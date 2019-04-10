@@ -169,7 +169,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 ### Deploy Senzing_API.tgz package
 
 1. Deploy the contents of
-   [Senzing_API.tgz](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/create-senzing-dir.md)
+   [Senzing_API.tgz](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/senzing-api-tgz.md)
    onto a Kubernetes Persistent Volume.
     1. References:
         1. [GitHub repository](https://github.com/Senzing/senzing-package)
