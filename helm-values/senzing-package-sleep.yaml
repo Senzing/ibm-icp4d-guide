@@ -1,0 +1,7 @@
+image:
+  repository: "mycluster.icp:8500/zen/senzing-package"
+  tag: latest
+
+senzing:
+  subcommand: sleep
+  sleepTime: 86400

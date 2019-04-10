@@ -1,0 +1,6 @@
+senzing:
+  bindAddr: "all"
+  concurrency: 8
+  databaseUrl: "XXXXX"
+  iniFile: "/opt/senzing/g2/python/G2Module.ini"
+  optSenzingClaim: "xXXX"

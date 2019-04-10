@@ -1,0 +1,12 @@
+senzing:
+  subcommand: kafka
+  databaseUrl: "xxxxx"
+  dataSource: PEOPLE
+  entityType: PEOPLE
+  kafkaBootstrapServerHost: "kafka"
+  kafkaBootstrapServerPort: 9092
+  kafkaTopic: senzing-kafka-topic
+  logLevel: info
+  monitoringPeriod: 60
+  optSenzingClaim: xxxxxx
+  threadsPerProcess: 4
