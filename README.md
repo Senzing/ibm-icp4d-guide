@@ -53,7 +53,7 @@ This repository assumes a working knowledge of:
 
     ```console
     export GIT_ACCOUNT=senzing
-    export GIT_REPOSITORY=kubernetes-demo
+    export GIT_REPOSITORY=ibm-icp4d-guide
     ```
 
 1. Then follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md).
