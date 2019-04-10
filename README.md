@@ -49,6 +49,8 @@ This repository assumes a working knowledge of:
 
 ### Clone repository
 
+The Git repository has files that will be used in the `helm install --values` parameter.
+
 1. Using these environment variable values:
 
     ```console
