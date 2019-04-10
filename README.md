@@ -81,9 +81,11 @@ The Git repository has files that will be used in the `helm install --values` pa
     db2 create database g2 using codeset utf-8 territory us
     ```
 
-1. The file of SQL commands in `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql`.
+1. Identify the correct file of SQL commands:
+    1. IBM Db2 Advanced Enterprise Edition `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql`.
+    1. IBM Db2 Warehouse SMP or MPP `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-BLU-create.sql`.
 
-1. Create tables in the database. Example:
+1. Variation #1. Create tables in the database using command line. Example:
 
     ```console
     su - db2inst1
