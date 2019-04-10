@@ -3,4 +3,4 @@ image:
   tag: latest
 
 senzing:
-  optSenzingClaim: XXXX
+  optSenzingClaim: user-home-pvc
