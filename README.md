@@ -119,13 +119,21 @@ The Git repository has files that will be used in the `helm install --values` pa
     1. [helm repo](https://helm.sh/docs/helm/#helm-repo)
     1. [Senzing charts](https://github.com/Senzing/charts)
 
+### Identify values files
+
+1. Example:
+
+    ```console
+    export HELM_VALUES_DIR=${GIT_REPOSITORY_DIR}/helm-values
+    ```
+
 ### Deploy Senzing_API.tgz package
 
 1. Example:
 
     ```console
     helm install ${HELM_TLS} \
-      --name ${DEMO_PREFIX}-senzing-package \
+      --name senzing-package \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-package.yaml \
       senzing/senzing-package
