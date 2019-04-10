@@ -130,8 +130,18 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Craft the `SENZING_DATABASE_URL`.  It will be used in "helm values" files.
 
     ```console
-    export DATABASE_USERNAME=my-username
-    export DATABASE_PASSWORD=my-password
+    export DATABASE_USERNAME=<my-username>
+    export DATABASE_PASSWORD=<my-password>
+    export DATABASE_HOST=<hostname>
+    export DATABASE_PORT=<db2-connnection-port>
+    export DATABASE_DATABASE=<database-name>
+    ```
+
+    Example:
+
+    ```console
+    export DATABASE_USERNAME=johnsmith
+    export DATABASE_PASSWORD=secret
     export DATABASE_HOST=my.database.com
     export DATABASE_PORT=50000
     export DATABASE_DATABASE=G2
