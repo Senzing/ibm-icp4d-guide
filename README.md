@@ -81,9 +81,15 @@ The Git repository has files that will be used in the `helm install --values` pa
     db2 create database g2 using codeset utf-8 territory us
     ```
 
-1. Identify the correct file of SQL commands:
-    1. IBM Db2: `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql`
-    1. IBM Db2 BLU: `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-BLU-create.sql`
+1. Obtain the correct file of SQL commands:
+    1. IBM Db2:
+        1. ${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql
+        1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-create.sql)
+        1. `curl -X GET --output /tmp/g2core-schema-db2-create.sql https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-create.sql`
+    1. IBM Db2 BLU:
+        1. ${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-BLU-create.sql
+        1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql)
+        1. `curl -X GET --output /tmp/g2core-schema-db2-create.sql https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql`
 
 1. Variation #1. Create tables in the database using command line. Example:
 
@@ -93,6 +99,16 @@ The Git repository has files that will be used in the `helm install --values` pa
     db2 -tf g2core-schema-db2-create.sql
     db2 connect reset
     ```
+
+1. Variation #2.  Using the IBM Cloud Private for Data console
+    1. Home > My data > Databases
+        1. Open tile for desired database
+        1. Menu > Run SQL
+        1. Click on plus sign ("+") to add
+        1. From file
+        1. In file browser, navigate to
+        1. Select appropriate Schema (check the box)
+        1. 
 
 #### Database connection information
 
