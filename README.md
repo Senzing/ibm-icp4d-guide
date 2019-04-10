@@ -105,10 +105,10 @@ The Git repository has files that will be used in the `helm install --values` pa
         1. Open tile for desired database
         1. Menu > Run SQL
         1. Click on plus sign ("+") to add
+        1. Select appropriate Schema (check the box)
         1. From file
         1. In file browser, navigate to SQL file
-        1. Run all
-        1. Select appropriate Schema (check the box)
+        1. Click "Run all" button
 
 #### Database connection information
 
