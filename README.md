@@ -155,9 +155,17 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Kafka connection information
 
-1. **FIXME:**
+1. Find the running Kafka service. Example:
 
     ```console
+    kubectl get service --namespace zen | grep kafka
+    ```
+
+1. Identify the host.  Example:
+
+    ```console
+    export KAFKA_HOST=kafka-external
+
     echo ${KAFKA_HOST}
     ```
 
