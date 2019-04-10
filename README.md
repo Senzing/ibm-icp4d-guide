@@ -171,10 +171,11 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Deploy the contents of
    [Senzing_API.tgz](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/senzing-api-tgz.md)
    onto a Kubernetes Persistent Volume.
-    1. References:
-        1. [GitHub repository](https://github.com/Senzing/senzing-package)
-        1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-package)
-        1. [Docker](https://hub.docker.com/r/senzing/senzing-package)
+
+   References:
+    1. [GitHub repository](https://github.com/Senzing/senzing-package)
+    1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-package)
+    1. [Docker](https://hub.docker.com/r/senzing/senzing-package)
 
 1. Review helm values in `${HELM_VALUES_DIR}/senzing-package.yaml`.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
@@ -212,11 +213,11 @@ The Git repository has files that will be used in the `helm install --values` pa
 ### Install mock-data-generator
 
 1. This component reads JSON LINES from file and pushes to Kafka.
-More details in the [GitHub repository](https://github.com/Senzing/mock-data-generator).
-    1. References:
-        1. [GitHub repository](https://github.com/Senzing/mock-data-generator)
-        1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-mock-data-generator)
-        1. [Docker](https://hub.docker.com/r/senzing/mock-data-generator)
+
+   References:
+    1. [GitHub repository](https://github.com/Senzing/mock-data-generator)
+    1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-mock-data-generator)
+    1. [Docker](https://hub.docker.com/r/senzing/mock-data-generator)
 
 1. Review helm values in `${HELM_VALUES_DIR}/mock-data-generator.yaml`.
     1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
@@ -237,10 +238,11 @@ More details in the [GitHub repository](https://github.com/Senzing/mock-data-gen
 
 1. This component reads from a Kafka topic and sends to Senzing which populates the DB2 database.
 More details in the [GitHub repository](https://github.com/Senzing/stream-loader).
-    1. References:
-        1. [GitHub repository](https://github.com/Senzing/stream-loader)
-        1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-stream-loader)
-        1. [Docker](https://hub.docker.com/r/senzing/stream-loader)
+
+   References:
+    1. [GitHub repository](https://github.com/Senzing/stream-loader)
+    1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-stream-loader)
+    1. [Docker](https://hub.docker.com/r/senzing/stream-loader)
 
 1. Review helm values in `${HELM_VALUES_DIR}/stream-loader.yaml`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
@@ -262,10 +264,11 @@ More details in the [GitHub repository](https://github.com/Senzing/stream-loader
 1. This component creates an HTTP service that implements the
 [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
 More details in the [GitHub repository](https://github.com/Senzing/senzing-api-server).
-    1. References:
-        1. [GitHub repository](https://github.com/Senzing/senzing-api-server)
-        1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-api-server)
-        1. [Docker](https://hub.docker.com/r/senzing/senzing-api-server)
+
+   References:
+    1. [GitHub repository](https://github.com/Senzing/senzing-api-server)
+    1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-api-server)
+    1. [Docker](https://hub.docker.com/r/senzing/senzing-api-server)
 
 1. Example:
 
