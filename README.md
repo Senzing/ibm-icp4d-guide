@@ -12,9 +12,13 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Space](#space)
     1. [Time](#time)
     1. [Background knowledge](#background-knowledge)
-1. [Demonstrate](#demonstrate)
+1. [Prerequisites](#prerequisites)
     1. [Clone repository](#clone-repository)
-    1. [Prerequisites](#prerequisites)
+    1. [Docker images](#docker-images)
+    1. [Initialize database](#initialize-database)
+    1. [Database connection information](#database-connection-information)
+    1. [Kafka connection information](#kafka-connection-information)
+1. [Demonstrate](#demonstrate)
     1. [Set environment variables](#set-environment-variables)
     1. [Add helm repositories](#add-helm-repositories)
     1. [Deploy Senzing_API.tgz package](#deploy-senzing_apitgz-package)
@@ -44,7 +48,7 @@ This repository assumes a working knowledge of:
 1. [Helm](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/helm.md)
 1. [IBM ICP4D](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/ibm-icp4d.md)
 
-## Demonstrate
+## Prerequisites
 
 ### Clone repository
 
@@ -66,13 +70,11 @@ The Git repository has files that will be used in the `helm install --values` pa
     export GIT_REPOSITORY_DIR="${GIT_ACCOUNT_DIR}/${GIT_REPOSITORY}"
     ```
 
-### Prerequisites
-
-#### Docker images
+### Docker images
 
 1. **FIXME:**  Describe how to accept terms and conditions for the senzing/senzing-package docker image.
 
-#### Initialize database
+### Initialize database
 
 1. If needed, create a database for Senzing data. Example:
 
@@ -123,7 +125,7 @@ The Git repository has files that will be used in the `helm install --values` pa
         1. In file browser, navigate to SQL file
         1. Click "Run all" button
 
-#### Database connection information
+### Database connection information
 
 1. Craft the `SENZING_DATABASE_URL`.  It will be used in "helm values" files.
 
@@ -139,13 +141,15 @@ The Git repository has files that will be used in the `helm install --values` pa
     echo ${SENZING_DATABASE_URL}
     ```
 
-#### Kafka connection information
+### Kafka connection information
 
 1. **FIXME:**
 
     ```console
     echo ${KAFKA_HOST}
     ```
+
+## Demonstrate
 
 ### Set environment variables
 
