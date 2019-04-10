@@ -254,7 +254,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm install ${HELM_TLS} \
       --name senzing-stream-loader \
       --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/stream-loader-db2.yaml \
+      --values ${HELM_VALUES_DIR}/stream-loader.yaml \
       senzing/senzing-stream-loader
     ```
 
@@ -278,7 +278,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm install ${HELM_TLS} \
       --name senzing-api-server \
       --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-api-server-db2.yaml \
+      --values ${HELM_VALUES_DIR}/senzing-api-server.yaml \
       senzing/senzing-api-server
     ```
 
