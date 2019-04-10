@@ -143,7 +143,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
     ```console
     helm install ${HELM_TLS} \
-      --name ${DEMO_PREFIX}-senzing-package-sleep \
+      --name senzing-package-sleep \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-package-sleep.yaml \
       senzing/senzing-package
