@@ -212,7 +212,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Install mock-data-generator
 
-1. This component reads JSON LINES from file and pushes to Kafka.
+1. This component reads JSON LINES from a URL-addressable file and pushes to Kafka.
 
    References:
     1. [GitHub repository](https://github.com/Senzing/mock-data-generator)
@@ -236,8 +236,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Install stream-loader
 
-1. This component reads from a Kafka topic and sends to Senzing which populates the DB2 database.
-More details in the [GitHub repository](https://github.com/Senzing/stream-loader).
+1. This component reads messages from a Kafka topic and sends them to Senzing which populates the DB2 database.
 
    References:
     1. [GitHub repository](https://github.com/Senzing/stream-loader)
@@ -249,7 +248,7 @@ More details in the [GitHub repository](https://github.com/Senzing/stream-loader
     1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
-1. Example:
+1. Perform Helm install. Example:
 
     ```console
     helm install ${HELM_TLS} \
@@ -263,14 +262,17 @@ More details in the [GitHub repository](https://github.com/Senzing/stream-loader
 
 1. This component creates an HTTP service that implements the
 [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
-More details in the [GitHub repository](https://github.com/Senzing/senzing-api-server).
 
    References:
     1. [GitHub repository](https://github.com/Senzing/senzing-api-server)
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-api-server)
     1. [Docker](https://hub.docker.com/r/senzing/senzing-api-server)
 
-1. Example:
+1. Review helm values in `${HELM_VALUES_DIR}/senzing-api-server`.
+    1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
+    1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
+
+1. Perform Helm install. Example:
 
     ```console
     helm install ${HELM_TLS} \
