@@ -81,7 +81,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     db2 create database g2 using codeset utf-8 territory us
     ```
 
-1. **FIXME:** Craft instructions on how to obtain `g2core-schema-db2-create.sql`.
+1. The file of SQL commands in `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql`.
 
 1. Create tables in the database. Example:
 
