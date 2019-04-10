@@ -42,6 +42,7 @@ This repository assumes a working knowledge of:
 1. [Docker](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/docker.md)
 1. [Kubernetes](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/kubernetes.md)
 1. [Helm](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/helm.md)
+1. [IBM ICP4D](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/ibm-icp4d.md)
 
 ## Demonstrate
 
@@ -56,9 +57,9 @@ The Git repository has files that will be used in the `helm install --values` pa
     export GIT_REPOSITORY=ibm-icp4d-guide
     ```
 
-1. Then follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md) to install the Git repository.
+1. Follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md) to install the Git repository.
 
-1. After the Git repository has been cloned, be sure the following are set:
+1. After the Git repository has been cloned, be sure the following environment variables are set:
 
     ```console
     export GIT_ACCOUNT_DIR=~/${GIT_ACCOUNT}.git
@@ -71,6 +72,50 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 1. **FIXME:**  Describe how to accept terms and conditions for the senzing/senzing-package docker image.
 
+#### Initialize database
+
+1. If needed, create a database for Senzing data. Example:
+
+    ```console
+    su - db2inst1
+    db2 create database g2 using codeset utf-8 territory us
+    ```
+
+1. **FIXME:** Craft instructions on how to obtain `g2core-schema-db2-create.sql`.
+
+1. Create tables in the database. Example:
+
+    ```console
+    su - db2inst1
+    db2 connect to g2
+    db2 -tf g2core-schema-db2-create.sql
+    db2 connect reset
+    ```
+
+#### Database connection information
+
+1. Craft the `SENZING_DATABASE_URL`.  It will be used in "helm values" files.
+
+    ```console
+    export DATABASE_USERNAME=my-username
+    export DATABASE_PASSWORD=my-password
+    export DATABASE_HOST=my.database.com
+    export DATABASE_PORT=50000
+    export DATABASE_DATABASE=G2
+
+    export SENZING_DATABASE_URL="db2://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}"
+
+    echo ${SENZING_DATABASE_URL}
+    ```
+
+#### Kafka connection information
+
+1. **FIXME:**
+
+    ```console
+    echo ${KAFKA_HOST}
+    ```
+
 ### Set environment variables
 
 1. Environment variables that need customization.  Example:
@@ -79,7 +124,11 @@ The Git repository has files that will be used in the `helm install --values` pa
     export DEMO_NAMESPACE=zen
     ```
 
-### Using Transport Layer Security
+1. Identify Helm values files location. Example:
+
+    ```console
+    export HELM_VALUES_DIR=${GIT_REPOSITORY_DIR}/helm-values
+    ```
 
 1. If you are using Transport Layer Security (TLS), then set the following environment variable:
 
@@ -101,33 +150,39 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm repo update
     ```
 
-1. Review repositories
+1. Review repositories.
 
     ```console
     helm repo list
     ```
 
-1. Optional:  View Senzing Helm charts.
+1. Optional:  View Senzing Helm charts in repository.
 
     ```console
-    helm repo list
+    helm repo search senzing/
     ```
 
-1. References: 
+1. References:
     1. [helm repo](https://helm.sh/docs/helm/#helm-repo)
     1. [Senzing charts](https://github.com/Senzing/charts)
 
-### Identify values files
-
-1. Example:
-
-    ```console
-    export HELM_VALUES_DIR=${GIT_REPOSITORY_DIR}/helm-values
-    ```
-
 ### Deploy Senzing_API.tgz package
 
-1. Example:
+1. Deploy the contents of
+   [Senzing_API.tgz](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/create-senzing-dir.md)
+   onto a Kubernetes Persistent Volume.
+    1. References:
+        1. [GitHub repository](https://github.com/Senzing/senzing-package)
+        1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-package)
+        1. [Docker](https://hub.docker.com/r/senzing/senzing-package)
+
+1. Review helm values in `${HELM_VALUES_DIR}/senzing-package.yaml`.
+    1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
+
+1. Review helm values in `${HELM_VALUES_DIR}/senzing-package-sleep.yaml`.
+    1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
+
+1. Perform Helm install. Example:
 
     ```console
     helm install ${HELM_TLS} \
@@ -154,31 +209,21 @@ The Git repository has files that will be used in the `helm install --values` pa
     kubectl exec -it --namespace ${DEMO_NAMESPACE} ${POD_NAME} -- /bin/bash
     ```
 
-### Initialize database
-
-1. If needed, create a database for Senzing data. Example:
-
-    ```console
-    su - db2inst1
-    db2 create database g2 using codeset utf-8 territory us
-    ```
-
-1. **FIXME:** Craft instructions on how to obtain `g2core-schema-db2-create.sql`.
-
-1. Create tables in the database. Example:
-
-    ```console
-    su - db2inst1
-    db2 connect to g2
-    db2 -tf g2core-schema-db2-create.sql
-    db2 connect reset
-    ```
-
 ### Install mock-data-generator
 
-This component reads JSON LINES from file and pushes to Kafka.
+1. This component reads JSON LINES from file and pushes to Kafka.
+More details in the [GitHub repository](https://github.com/Senzing/mock-data-generator).
+    1. References:
+        1. [GitHub repository](https://github.com/Senzing/mock-data-generator)
+        1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-mock-data-generator)
+        1. [Docker](https://hub.docker.com/r/senzing/mock-data-generator)
 
-1. Example:
+1. Review helm values in `${HELM_VALUES_DIR}/mock-data-generator.yaml`.
+    1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
+    1. `senzing.inputUrl` is a URL addressable file of JSON LINES. (e.g. `file://`, `http://`).
+    1. `senzing.recordMax` is the maximum number of JSON LINES to read from the file.  Remove or 0 to read all lines.
+
+1. Perform Helm install. Example:
 
     ```console
     helm install ${HELM_TLS} \
@@ -190,7 +235,17 @@ This component reads JSON LINES from file and pushes to Kafka.
 
 ### Install stream-loader
 
-This component reads from Kafka topic and sends to Senzing which populates the DB2 database.
+1. This component reads from a Kafka topic and sends to Senzing which populates the DB2 database.
+More details in the [GitHub repository](https://github.com/Senzing/stream-loader).
+    1. References:
+        1. [GitHub repository](https://github.com/Senzing/stream-loader)
+        1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-stream-loader)
+        1. [Docker](https://hub.docker.com/r/senzing/stream-loader)
+
+1. Review helm values in `${HELM_VALUES_DIR}/stream-loader.yaml`.
+    1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
+    1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
+    1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
 1. Example:
 
@@ -204,8 +259,13 @@ This component reads from Kafka topic and sends to Senzing which populates the D
 
 ### Install senzing-api-server
 
-This component creates an HTTP service that implements the
+1. This component creates an HTTP service that implements the
 [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
+More details in the [GitHub repository](https://github.com/Senzing/senzing-api-server).
+    1. References:
+        1. [GitHub repository](https://github.com/Senzing/senzing-api-server)
+        1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-api-server)
+        1. [Docker](https://hub.docker.com/r/senzing/senzing-api-server)
 
 1. Example:
 

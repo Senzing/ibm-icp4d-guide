@@ -1,6 +1,0 @@
-db2:
-  license: accept
-  password: db2inst1
-
-senzing:  
-  optSenzingStorageClaim: XXXX
