@@ -79,8 +79,6 @@ This repository assumes a working knowledge of:
     export DEMO_NAMESPACE=zen
     ```
 
-1. Set environment variables listed in "[Clone repository](#clone-repository)".
-
 ### Using Transport Layer Security
 
 1. If you are using Transport Layer Security (TLS), then set the following environment variable:
