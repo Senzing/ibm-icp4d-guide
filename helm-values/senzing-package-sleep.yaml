@@ -3,5 +3,6 @@ image:
   tag: latest
 
 senzing:
+  optSenzingClaim: user-home-pvc
   subcommand: sleep
   sleepTime: 86400
