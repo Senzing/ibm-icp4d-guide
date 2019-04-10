@@ -109,7 +109,15 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm repo list
     ```
 
-1. Reference: [helm repo](https://helm.sh/docs/helm/#helm-repo)
+1. Optional:  View Senzing Helm charts.
+
+    ```console
+    helm repo list
+    ```
+
+1. References: 
+    1. [helm repo](https://helm.sh/docs/helm/#helm-repo)
+    1. [Senzing charts](https://github.com/Senzing/charts)
 
 ### Deploy Senzing_API.tgz package
 
