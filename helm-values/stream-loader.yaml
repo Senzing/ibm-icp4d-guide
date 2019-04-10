@@ -1,12 +1,12 @@
 senzing:
   subcommand: kafka
-  databaseUrl: "xxxxx"
+  databaseUrl: "${SENZING_DATABASE_URL}"
   dataSource: PEOPLE
   entityType: PEOPLE
-  kafkaBootstrapServerHost: "kafka"
+  kafkaBootstrapServerHost: "${KAFKA_HOST}"
   kafkaBootstrapServerPort: 9092
   kafkaTopic: senzing-kafka-topic
   logLevel: info
   monitoringPeriod: 60
-  optSenzingClaim: xxxxxx
+  optSenzingClaim: user-home-pvc
   threadsPerProcess: 4
