@@ -129,6 +129,8 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 1. Craft the `SENZING_DATABASE_URL`.  It will be used in "helm values" files.
 
+    Components of the URL:
+
     ```console
     export DATABASE_USERNAME=<my-username>
     export DATABASE_PASSWORD=<my-password>
