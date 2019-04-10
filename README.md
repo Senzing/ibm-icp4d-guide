@@ -214,7 +214,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Optional:  View Senzing Helm charts in repository.
 
     ```console
-    helm repo search senzing/
+    helm search senzing/
     ```
 
 1. References:
