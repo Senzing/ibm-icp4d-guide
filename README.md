@@ -370,10 +370,10 @@ See `kubectl port-forward ...` above.
 1. Example:
 
     ```console
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-api-server
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-stream-loader
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-mock-data-generator
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-package-sleep
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-package
+    helm delete ${HELM_TLS} --purge senzing-api-server
+    helm delete ${HELM_TLS} --purge senzing-stream-loader
+    helm delete ${HELM_TLS} --purge senzing-mock-data-generator
+    helm delete ${HELM_TLS} --purge senzing-package-sleep
+    helm delete ${HELM_TLS} --purge senzing-package
     helm repo remove senzing
     ```
