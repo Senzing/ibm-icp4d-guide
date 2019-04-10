@@ -56,9 +56,9 @@ This repository assumes a working knowledge of:
     export GIT_REPOSITORY=ibm-icp4d-guide
     ```
 
-1. Then follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md).
+1. Then follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md) to install the Git repository.
 
-1. After the repository has been cloned, be sure the following are set:
+1. After the Git repository has been cloned, be sure the following are set:
 
     ```console
     export GIT_ACCOUNT_DIR=~/${GIT_ACCOUNT}.git
@@ -89,13 +89,7 @@ This repository assumes a working knowledge of:
 
 ### Add helm repositories
 
-1. Add Bitnami repository. Example:
-
-    ```console
-    helm repo add bitnami https://charts.bitnami.com
-    ```
-
-1. Add Senzing repository.  Example:
+1. Add Senzing Helm repository.  Example:
 
     ```console
     helm repo add senzing https://senzing.github.io/charts/
