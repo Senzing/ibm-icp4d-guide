@@ -17,7 +17,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Prerequisites](#prerequisites)
     1. [Set environment variables](#set-environment-variables)
     1. [Add helm repositories](#add-helm-repositories)
-    1. [Initialize database](#initialize-database)
+    1. [Deploy Senzing_API.tgz package](#deploy-senzing_apitgz-package)
     1. [Install mock-data-generator](#install-mock-data-generator)
     1. [Install stream-loader](#install-stream-loader)
     1. [Install senzing-api-server](#install-senzing-api-server)
