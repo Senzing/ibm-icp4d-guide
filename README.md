@@ -343,7 +343,6 @@ The Git repository has files that will be used in the `helm install --values` pa
     export DEMO_NAMESPACE=zen
 
     kubectl port-forward \
-      --address 0.0.0.0 \
       --namespace ${DEMO_NAMESPACE} \
       svc/senzing-api-server 8889:80
     ```
