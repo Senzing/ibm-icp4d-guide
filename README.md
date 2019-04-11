@@ -345,7 +345,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     kubectl port-forward \
       --address 0.0.0.0 \
       --namespace ${DEMO_NAMESPACE} \
-      svc/${DEMO_PREFIX}-senzing-api-server 8889:80
+      svc/senzing-api-server 8889:80
     ```
 
 ### Test Senzing REST API server
