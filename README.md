@@ -15,7 +15,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
 1. [Prerequisites](#prerequisites)
     1. [Clone repository](#clone-repository)
     1. [Docker images](#docker-images)
-    1. [Kafka initialization(#kafka-initialization)
+    1. [Kafka initialization](#kafka-initialization)
     1. [Database initialization](#database-initialization)
     1. [Database connection information](#database-connection-information)
 1. [Demonstrate](#demonstrate)
