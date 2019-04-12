@@ -2,7 +2,7 @@
 
 ## Overview
 
-The following diagram shows the relationship of the Helm charts, docker containers, and code in this Kubernetes demonstration.
+The following diagram shows the relationship of the Helm charts, docker containers, and code in this IBM Cloud Private for Data demonstration.
 
 ![Image of architecture](docs/architecture.png)
 
