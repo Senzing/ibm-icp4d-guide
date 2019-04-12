@@ -256,7 +256,7 @@ The Git repository has files that will be used in the `helm install --values` pa
       senzing/senzing-package
     ```
 
-1. To inspect the `/opt/senzing` volume, run a second copy in "sleep" mode. Example:
+1. Optional: To inspect the `/opt/senzing` volume, run a second copy in "sleep" mode. Example:
 
     ```console
     helm install ${HELM_TLS} \
