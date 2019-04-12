@@ -15,16 +15,16 @@ The following diagram shows the relationship of the Helm charts, docker containe
 1. [Prerequisites](#prerequisites)
     1. [Clone repository](#clone-repository)
     1. [Docker images](#docker-images)
+    1. [Kafka initialization(#kafka-initialization)
     1. [Database initialization](#database-initialization)
     1. [Database connection information](#database-connection-information)
-    1. [Kafka connection information](#kafka-connection-information)
 1. [Demonstrate](#demonstrate)
     1. [Set environment variables](#set-environment-variables)
     1. [Add helm repositories](#add-helm-repositories)
     1. [Deploy Senzing_API.tgz package](#deploy-senzing_apitgz-package)
-    1. [Install mock-data-generator](#install-mock-data-generator)
-    1. [Install stream-loader](#install-stream-loader)
-    1. [Install senzing-api-server](#install-senzing-api-server)
+    1. [Install mock-data-generator Helm chart](#install-mock-data-generator-helm-chart)
+    1. [Install stream-loader Helm chart](#install-stream-loader-helm-chart)
+    1. [Install senzing-api-server Helm chart](#install-senzing-api-server-helm-chart)
     1. [Test Senzing REST API server](#test-senzing-rest-api-server)
 1. [Cleanup](#cleanup)
     1. [Delete everything in project](#delete-everything-in-project)
@@ -73,6 +73,33 @@ The Git repository has files that will be used in the `helm install --values` pa
 ### Docker images
 
 1. **FIXME:**  Describe how to accept terms and conditions for the senzing/senzing-package docker image.
+
+### Kafka initialization
+
+1. Find the running Kafka services. Example:
+
+    ```console
+    kubectl get service --namespace zen | grep kafka
+    ```
+
+1. Create Kafka topic for Senzing.  Example:
+
+    ```console
+    ./kafka-topics.sh \
+      --create \
+      --zookeeper <ZOOKEEPER_URL:PORT> \
+      --replication-factor 2 \
+      --partitions 15 \
+      --topic senzing-kafka-topic
+    ```
+
+1. Identify the service host with type of `NodePort`.  Example:
+
+    ```console
+    export KAFKA_HOST=kafka-external
+
+    echo ${KAFKA_HOST}
+    ```
 
 ### Database initialization
 
@@ -151,22 +178,6 @@ The Git repository has files that will be used in the `helm install --values` pa
     export SENZING_DATABASE_URL="db2://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}"
 
     echo ${SENZING_DATABASE_URL}
-    ```
-
-### Kafka initialization
-
-1. Find the running Kafka services. Example:
-
-    ```console
-    kubectl get service --namespace zen | grep kafka
-    ```
-
-1. Identify the service host with type of `NodePort`.  Example:
-
-    ```console
-    export KAFKA_HOST=kafka-external
-
-    echo ${KAFKA_HOST}
     ```
 
 ## Demonstrate
@@ -259,7 +270,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     kubectl exec -it --namespace ${DEMO_NAMESPACE} ${POD_NAME} -- /bin/bash
     ```
 
-### Install mock-data-generator
+### Install mock-data-generator Helm chart
 
 1. This component reads JSON LINES from a URL-addressable file and pushes to Kafka.
 
@@ -283,7 +294,7 @@ The Git repository has files that will be used in the `helm install --values` pa
       senzing/senzing-mock-data-generator
     ```
 
-### Install stream-loader
+### Install stream-loader Helm chart
 
 1. This component reads messages from a Kafka topic and sends them to Senzing which populates the DB2 database.
 
@@ -307,7 +318,7 @@ The Git repository has files that will be used in the `helm install --values` pa
       senzing/senzing-stream-loader
     ```
 
-### Install senzing-api-server
+### Install senzing-api-server Helm chart
 
 1. This component creates an HTTP service that implements the
 [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
