@@ -204,7 +204,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm repo add senzing https://senzing.github.io/charts/
     ```
 
-1. Optional:  View Senzing Helm charts in repository.
+1. Optional:  View Senzing Helm charts in repository. Example:
 
     ```console
     helm search senzing/
