@@ -89,13 +89,13 @@ The Git repository has files that will be used in the `helm install --values` pa
     ```
     
 
-1. Create Kafka topic for Senzing.  Example:
+1. Within the Kafka pod, create Kafka topic for Senzing.  Example:
 
     ```console
     /opt/kafka/bin/kafka-topics.sh \
       --create \
       --zookeeper zookeeper:2181 \
-      --replication-factor 2 \
+      --replication-factor 1 \
       --partitions 15 \
       --topic senzing-kafka-topic
     ```
