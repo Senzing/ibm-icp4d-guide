@@ -85,7 +85,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Enter the pod. Example:
 
     ```console
-    kubectl exec -it kafka-0 -n zen bash    
+    kubectl exec -it kafka-0 -n zen bash
     ```
 
 1. Within the Kafka pod, create Kafka topic for Senzing.  Example:
@@ -138,10 +138,7 @@ The Git repository has files that will be used in the `helm install --values` pa
               https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql
             ```
 
-
-
 1. Variation #1. Create tables in the database using command line. Example:
-
 
     1. If needed, create a database for Senzing data. Example:
 
@@ -151,7 +148,7 @@ The Git repository has files that will be used in the `helm install --values` pa
         ```
 
     1. Create tables in schema.  Example:
-    
+
         ```console
         su - db2inst1
         db2 connect to g2
@@ -169,7 +166,7 @@ The Git repository has files that will be used in the `helm install --values` pa
         1. In file browser, navigate to SQL file
         1. Click "Run all" button
 
-1. Variation #3.  (FIXME:)  Using the IBM Cloud Private for Data console with DB2 BLU 
+1. Variation #3.  (FIXME:)  Using the IBM Cloud Private for Data console with DB2 BLU
 
 ### Database connection information
 
@@ -263,16 +260,16 @@ The Git repository has files that will be used in the `helm install --values` pa
 
     ```console
     helm install ${HELM_TLS} \
-      --name senzing-package-sleep \
+      --name senzing-base \
       --namespace ${DEMO_NAMESPACE} \
-      --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-package-sleep.yaml \
-      senzing/senzing-package
+      --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-base.yaml \
+      senzing/senzing-base
     ```
 
     ```console
     kubectl get pods --namespace ${DEMO_NAMESPACE}
 
-    export POD_NAME=my-senzing-package-sleep-XXXXXX
+    export POD_NAME=senzing-base-XXXXXX
     kubectl exec -it --namespace ${DEMO_NAMESPACE} ${POD_NAME} -- /bin/bash
     ```
 
