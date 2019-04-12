@@ -204,18 +204,6 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm repo add senzing https://senzing.github.io/charts/
     ```
 
-1. Update repositories.
-
-    ```console
-    helm repo update
-    ```
-
-1. Review repositories.
-
-    ```console
-    helm repo list
-    ```
-
 1. Optional:  View Senzing Helm charts in repository.
 
     ```console
