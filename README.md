@@ -397,3 +397,7 @@ See `kubectl port-forward ...` above.
     helm delete ${HELM_TLS} --purge senzing-package
     helm repo remove senzing
     ```
+
+1. FIXME: Remove Kafka topic. Example:
+
+1. FIXME: Delete database.  Example:
