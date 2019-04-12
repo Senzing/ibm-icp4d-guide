@@ -94,6 +94,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     ```console
     /opt/kafka/bin/kafka-topics.sh \
       --create \
+      --bootstrap-server localhost:9092 \
       --zookeeper zookeeper:2181 \
       --replication-factor 1 \
       --partitions 15 \
