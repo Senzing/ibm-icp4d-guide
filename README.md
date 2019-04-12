@@ -142,7 +142,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     db2 connect reset
     ```
 
-1. Variation #2.  Using the IBM Cloud Private for Data console
+1. Variation #2.  (FIXME:) Using the IBM Cloud Private for Data console
     1. Home > My data > Databases
         1. Open tile for desired database
         1. Menu > Run SQL
