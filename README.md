@@ -243,9 +243,6 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-package.yaml`.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
-1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-package-sleep.yaml`.
-    1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
-
 1. Perform Helm install. Example:
 
     ```console
@@ -256,22 +253,36 @@ The Git repository has files that will be used in the `helm install --values` pa
       senzing/senzing-package
     ```
 
-1. Optional: To inspect the `/opt/senzing` volume, run a second copy in "sleep" mode. Example:
+1. WARNING.  REALLY: PAY ATTENTION TO THIS! FIXME:
+   Until Senzing gets permission to redistribute crypto libraries,
+   the full DB2 client (`ibm_data_server_driver_for_odbc_cli_linuxx64_v11.1.tar.gz`)
+   needs to expanded into /opt/senzing/db2/clidriver.
+   Also copy `db2dsdriver.cfg`  needs to have SERVER_ENCRYPT (as well as the credentials).
 
-    ```console
-    helm install ${HELM_TLS} \
-      --name senzing-base \
-      --namespace ${DEMO_NAMESPACE} \
-      --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-base.yaml \
-      senzing/senzing-base
-    ```
+1. Optional: To inspect the `/opt/senzing` volume, run a base Senzing image.
 
-    ```console
-    kubectl get pods --namespace ${DEMO_NAMESPACE}
+    1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-base.yaml`.
+        1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
+        1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
-    export POD_NAME=senzing-base-XXXXXX
-    kubectl exec -it --namespace ${DEMO_NAMESPACE} ${POD_NAME} -- /bin/bash
-    ```
+    1. Install chart.  Example:
+
+        ```console
+        helm install ${HELM_TLS} \
+          --name senzing-base \
+          --namespace ${DEMO_NAMESPACE} \
+          --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-base.yaml \
+          senzing/senzing-base
+        ```
+
+    1. Find and enter pod.  Example:
+
+        ```console
+        kubectl get pods --namespace ${DEMO_NAMESPACE}
+
+        export POD_NAME=senzing-base-XXXXXX
+        kubectl exec -it --namespace ${DEMO_NAMESPACE} ${POD_NAME} -- /bin/bash
+        ```
 
 ### Install mock-data-generator Helm chart
 
