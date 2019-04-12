@@ -259,6 +259,10 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Install mock-data-generator Helm chart
 
+:warning:  **FIXME:**  This is a **mock** data generator.
+In production, this component is replaced by
+different components that feed Kafka.
+
 1. This component reads JSON LINES from a URL-addressable file and pushes to Kafka.
 
    References:
