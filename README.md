@@ -76,21 +76,34 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Kafka initialization
 
-1. Find the running Kafka services. Example:
+1. Find pod running kafka. Example:
 
     ```console
-    kubectl get service --namespace zen | grep kafka
+    kubectl get pods -n zen | grep kafka
     ```
+
+1. Enter the pod.  Example:
+
+    ```console
+    kubectl exec -it kafka-0 -n zen bash    
+    ```
+    
 
 1. Create Kafka topic for Senzing.  Example:
 
     ```console
-    ./kafka-topics.sh \
+    /opt/kafka/bin/kafka-topics.sh \
       --create \
       --zookeeper <ZOOKEEPER_URL:PORT> \
       --replication-factor 2 \
       --partitions 15 \
       --topic senzing-kafka-topic
+    ```
+
+1. Find the running Kafka services. Example:
+
+    ```console
+    kubectl get service --namespace zen | grep kafka
     ```
 
 1. Identify the service host with type of `NodePort`.  Example:
