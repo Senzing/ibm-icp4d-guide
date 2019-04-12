@@ -211,7 +211,6 @@ The Git repository has files that will be used in the `helm install --values` pa
     ```
 
 1. References:
-    1. [helm repo](https://helm.sh/docs/helm/#helm-repo)
     1. [Senzing charts](https://github.com/Senzing/charts)
 
 ### Deploy Senzing_API.tgz package
