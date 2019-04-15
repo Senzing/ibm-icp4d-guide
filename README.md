@@ -99,6 +99,14 @@ The Git repository has files that will be used in the `helm install --values` pa
       --topic senzing-kafka-topic
     ```
 
+1. Within the Kafka pod, create Kafka topic for Senzing.  Example:
+
+    ```console
+    /opt/kafka/bin/kafka-topics.sh \
+      --list \
+      --zookeeper zookeeper:2181/kafka
+    ```
+
 1. Find the running Kafka services. Example:
 
     ```console
