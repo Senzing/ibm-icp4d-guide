@@ -99,7 +99,7 @@ The Git repository has files that will be used in the `helm install --values` pa
       --topic senzing-kafka-topic
     ```
 
-1. Verify the Kafka topic has been created.  Example:
+1. Within the Kafka pod, verify the Kafka topic has been created.  Example:
 
     ```console
     /opt/kafka/bin/kafka-topics.sh \
@@ -107,7 +107,7 @@ The Git repository has files that will be used in the `helm install --values` pa
       --zookeeper zookeeper:2181/kafka
     ```
 
-1. Find the running Kafka services. Example:
+1. Outside of the Kafka pod, find the running Kafka services. Example:
 
     ```console
     kubectl get service --namespace zen | grep kafka
@@ -123,28 +123,32 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Database initialization
 
-1. Obtain the correct file of SQL commands used to create :
-    1. For **IBM Db2** use one of these techniques:
-        1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql`
-        1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-create.sql)
-        1. Using `curl`. Example:
 
-            ```console
-            curl -X GET \
-              --output /tmp/g2core-schema-db2-create.sql \
-              https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-create.sql
-            ```
+#### Obtain correct SQL file
 
-    1. For **IBM Db2 BLU** use one of these techniques:
-        1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-BLU-create.sql`
-        1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql)
-        1. Using `curl`. Example:
+1. For **IBM Db2** use one of these techniques:
+    1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql`
+    1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-create.sql)
+    1. Using `curl`. Example:
 
-            ```console
-            curl -X GET \
-              --output /tmp/g2core-schema-db2-BLU-create.sql \
-              https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql
-            ```
+        ```console
+        curl -X GET \
+          --output /tmp/g2core-schema-db2-create.sql \
+          https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-create.sql
+        ```
+
+1. For **IBM Db2 BLU** use one of these techniques:
+    1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-BLU-create.sql`
+    1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql)
+    1. Using `curl`. Example:
+
+        ```console
+        curl -X GET \
+          --output /tmp/g2core-schema-db2-BLU-create.sql \
+          https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql
+        ```
+
+#### Run SQL file 
 
 1. Variation #1. Create tables in the database using command line. Example:
 
@@ -167,14 +171,13 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Variation #2.  (FIXME:) Using the IBM Cloud Private for Data console with DB2 Advanced ...
     1. Home > My data > Databases
         1. Open tile for desired database
+        1. Click on the ellipse, click on "Open"
         1. Menu > Run SQL
         1. Click on plus sign ("+") to add
         1. Select appropriate Schema (check the box)
         1. From file
         1. In file browser, navigate to SQL file
         1. Click "Run all" button
-
-1. Variation #3.  (FIXME:)  Using the IBM Cloud Private for Data console with DB2 BLU
 
 ### Database connection information
 
@@ -203,6 +206,11 @@ The Git repository has files that will be used in the `helm install --values` pa
 
     echo ${SENZING_DATABASE_URL}
     ```
+
+1. FIXME: In the user interface, (show how to find database credentials)
+    1. Details
+    1. Bottom
+    1. "Access Information" section
 
 ## Demonstrate
 
@@ -261,15 +269,9 @@ The Git repository has files that will be used in the `helm install --values` pa
       senzing/senzing-package
     ```
 
-1. WARNING.  REALLY: PAY ATTENTION TO THIS! FIXME:
-   Until Senzing gets permission to redistribute crypto libraries,
-   the full DB2 client (`ibm_data_server_driver_for_odbc_cli_linuxx64_v11.1.tar.gz`)
-   needs to expanded into /opt/senzing/db2/clidriver.
-   Also copy `db2dsdriver.cfg`  needs to have SERVER_ENCRYPT (as well as the credentials).
+1. Optional: To inspect the `/opt/senzing` volume, run a Senzing debug image.
 
-1. Optional: To inspect the `/opt/senzing` volume, run a base Senzing image.
-
-    1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-base.yaml`.
+    1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml`.
         1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
         1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
@@ -277,10 +279,10 @@ The Git repository has files that will be used in the `helm install --values` pa
 
         ```console
         helm install ${HELM_TLS} \
-          --name senzing-base \
+          --name senzing-debug \
           --namespace ${DEMO_NAMESPACE} \
-          --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-base.yaml \
-          senzing/senzing-base
+          --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml \
+          senzing/senzing-debug
         ```
 
     1. Find and enter pod.  Example:
@@ -288,7 +290,7 @@ The Git repository has files that will be used in the `helm install --values` pa
         ```console
         kubectl get pods --namespace ${DEMO_NAMESPACE}
 
-        export POD_NAME=senzing-base-XXXXXX
+        export POD_NAME=senzing-debug-XXXXXX
         kubectl exec -it --namespace ${DEMO_NAMESPACE} ${POD_NAME} -- /bin/bash
         ```
 
