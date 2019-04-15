@@ -269,6 +269,8 @@ The Git repository has files that will be used in the `helm install --values` pa
       senzing/senzing-package
     ```
 
+1.  **Important:** Wait until job runs to completion before continuing.
+
 1. Optional: To inspect the `/opt/senzing` volume, run a Senzing debug image.
 
     1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml`.
