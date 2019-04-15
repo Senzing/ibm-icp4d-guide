@@ -395,6 +395,9 @@ See `kubectl port-forward ...` above.
 
 ### Delete everything in project
 
+
+#### Delete Helm charts
+
 1. Example:
 
     ```console
@@ -406,6 +409,31 @@ See `kubectl port-forward ...` above.
     helm repo remove senzing
     ```
 
-1. FIXME: Remove Kafka topic. Example:
+#### Delete Kafka topic
 
-1. FIXME: Delete database.  Example:
+1. FIXME: Example:
+
+1. Find pod running kafka. Example:
+
+    ```console
+    kubectl get pods -n zen | grep kafka
+    ```
+
+1. Enter the pod. Example:
+
+    ```console
+    kubectl exec -it kafka-0 -n zen bash
+    ```
+
+1. Within the Kafka pod, create Kafka topic for Senzing.  Example:
+
+    ```console
+    /opt/kafka/bin/kafka-topics.sh \
+      --delete \
+      --zookeeper zookeeper:2181/kafka \
+      --topic senzing-kafka-topic
+    ```
+
+#### FIXME: Delete database.
+
+1. Example:
