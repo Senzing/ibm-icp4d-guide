@@ -414,7 +414,7 @@ See `kubectl port-forward ...` above.
     helm delete ${HELM_TLS} --purge senzing-api-server
     helm delete ${HELM_TLS} --purge senzing-stream-loader
     helm delete ${HELM_TLS} --purge senzing-mock-data-generator
-    helm delete ${HELM_TLS} --purge senzing-base
+    helm delete ${HELM_TLS} --purge senzing-debug
     helm delete ${HELM_TLS} --purge senzing-package
     helm repo remove senzing
     ```
