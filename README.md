@@ -99,7 +99,7 @@ The Git repository has files that will be used in the `helm install --values` pa
       --topic senzing-kafka-topic
     ```
 
-1. Within the Kafka pod, create Kafka topic for Senzing.  Example:
+1. Verify the Kafka topic has been created.  Example:
 
     ```console
     /opt/kafka/bin/kafka-topics.sh \
