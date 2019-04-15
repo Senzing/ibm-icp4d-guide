@@ -1,3 +1,6 @@
+image:
+  pullPolicy: Always
+
 senzing:
   subcommand: "url-to-kafka"
   kafkaBootstrapServerHost: kafka-external

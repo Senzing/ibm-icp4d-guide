@@ -1,3 +1,6 @@
+image:
+  pullPolicy: Always
+
 replicaCount: 10
 
 senzing:
