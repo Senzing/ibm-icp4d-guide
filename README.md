@@ -38,7 +38,10 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Install senzing-api-server Helm chart](#install-senzing-api-server-helm-chart)
     1. [Test Senzing REST API server](#test-senzing-rest-api-server)
 1. [Cleanup](#cleanup)
-    1. [Delete everything in project](#delete-everything-in-project)
+    1. [Delete Helm charts](#delete-helm-charts)
+    1. [Delete Kafka topic](#delete-kafka-topic)
+    1. [Delete database tables](#delete-database-tables)
+    1. [Delete git repository](#delete-git-repository)
 
 ## Expectations
 
@@ -447,9 +450,8 @@ See `kubectl port-forward ...` above.
 
 ## Cleanup
 
-### Delete everything in project
 
-#### Delete Helm charts
+### Delete Helm charts
 
 1. Example:
 
@@ -462,7 +464,7 @@ See `kubectl port-forward ...` above.
     helm repo remove senzing
     ```
 
-#### Delete Kafka topic
+### Delete Kafka topic
 
 1. FIXME: Example:
 
@@ -487,8 +489,8 @@ See `kubectl port-forward ...` above.
       --topic senzing-kafka-topic
     ```
 
-#### FIXME: Delete database tables
+### Delete database tables
 
-1. Example:
+1. **FIXME:** Example:
 
-#### Delete git repository
+### Delete git repository
