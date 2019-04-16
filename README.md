@@ -106,7 +106,7 @@ The Git repository has files that will be used in the `helm install --values` pa
       --create \
       --zookeeper zookeeper:2181/kafka \
       --replication-factor 1 \
-      --partitions 15 \
+      --partitions 50 \
       --topic senzing-kafka-topic
     ```
 
@@ -178,7 +178,7 @@ The Git repository has files that will be used in the `helm install --values` pa
         db2 connect reset
         ```
 
-1. Variation #2.  (FIXME:) Using the IBM Cloud Private for Data console with DB2 Advanced ...
+1. Variation #2.  **FIXME:** Using the IBM Cloud Private for Data console with DB2 Advanced ...
     1. Home > My data > Databases
         1. Open tile for desired database
         1. Click on the ellipse, click on "Open"
@@ -217,7 +217,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     echo ${SENZING_DATABASE_URL}
     ```
 
-1. FIXME: In the user interface, (show how to find database credentials)
+1. **FIXME:** In the user interface, (show how to find database credentials)
     1. Details
     1. Bottom
     1. "Access Information" section
@@ -487,6 +487,8 @@ See `kubectl port-forward ...` above.
       --topic senzing-kafka-topic
     ```
 
-#### FIXME: Delete database
+#### FIXME: Delete database tables
 
 1. Example:
+
+#### Delete git repository
