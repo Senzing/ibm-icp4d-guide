@@ -112,6 +112,10 @@ The Git repository has files that will be used in the `helm install --values` pa
       --partitions 50 \
       --topic senzing-kafka-topic
     ```
+    
+    1. "50" partitions was chosen because a 5-to-1 ratio
+       of Kafka partitions to Senzing "stream-loaders" is recommended.
+       Below, 10 Senzing "stream loaders" will be created.
 
 1. Within the Kafka pod, verify the Kafka topic has been created.  Example:
 
