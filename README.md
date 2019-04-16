@@ -2,6 +2,8 @@
 
 ## Overview
 
+This repository illustrates a reference implementation of Senzing on the IBM Cloud Private for Data
+
 The following diagram shows the relationship of the Helm charts, docker containers, and code in this IBM Cloud Private for Data demonstration.
 
 ![Image of architecture](docs/architecture.png)
@@ -123,7 +125,6 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Database initialization
 
-
 #### Obtain correct SQL file
 
 1. For **IBM Db2** use one of these techniques:
@@ -222,7 +223,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     export DEMO_NAMESPACE=zen
     ```
 
-1. If you are using Transport Layer Security (TLS), then set the following environment variable:
+1. If using Transport Layer Security (TLS), then set the following environment variable:
 
     ```console
     export HELM_TLS="--tls"
@@ -270,6 +271,16 @@ The Git repository has files that will be used in the `helm install --values` pa
     ```
 
 1.  **Important:** Wait until job runs to completion before continuing.
+    This will take a few minutes.
+    Example of completed job:
+    
+    ```console
+    # kubectl get pods --namespace ${DEMO_NAMESPACE}  | grep senzing
+    
+    senzing-package-r6z86                                             0/1     Completed   0          4m29s    
+    ```
+
+    Note that the job took four and a half minutes to complete.
 
 1. Optional: To inspect the `/opt/senzing` volume, run a Senzing debug image.
 
@@ -295,6 +306,22 @@ The Git repository has files that will be used in the `helm install --values` pa
         export POD_NAME=senzing-debug-XXXXXX
         kubectl exec -it --namespace ${DEMO_NAMESPACE} ${POD_NAME} -- /bin/bash
         ```
+
+### Install Senzing license
+
+This is an optional step.
+Senzing comes with a trial license that supports 10,000 entities.
+
+
+1. If working with more entities,
+   [obtain a Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/obtain-senzing-license.md)
+
+1. With the `g2.lic` file, ...
+
+1. FIXME: 
+
+
+
 
 ### Install mock-data-generator Helm chart
 
