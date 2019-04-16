@@ -319,22 +319,22 @@ The Git repository has files that will be used in the `helm install --values` pa
 ### Install Senzing license
 
 This is an optional step.
-Senzing comes with a trial license that supports 10,000 entities.
+Senzing comes with a trial license that supports 10,000 records.
 
 1. If working with more entities,
    [obtain a Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/obtain-senzing-license.md).
 
-1. Enter the "`senzing-debug`" pod as described above.
-    
-1. FIXME:  `ssh` the `g2.lic` file to the `senzing-debug` pod.  Example:
+1. Copy the `g2.lic` file to the `senzing-debug` pod at `/opt/senzing/g2/data/g2.lic`.  Example:
 
     ```console
-    FIXME: need example.
+    kubectl cp \
+      --namespace ${DEMO_NAMESPACE} \
+      /path/to/local/g2.lic \
+      senzing-debug-nnnnnnnnn-nnnnn:/opt/senzing/g2/data/g2.lic
     ```
     
-1. In the `senzing-debug` pod, place the license file at `/opt/senzing/g2/data/g2.lic`.
-    1. Note: `/opt/senzing` is attached as a Kubernetes Persistent Volume Claim (PVC),
-       so the license will be seen by all pods that attach to the PVC.
+1. Note: `/opt/senzing` is attached as a Kubernetes Persistent Volume Claim (PVC),
+   so the license will be seen by all pods that attach to the PVC.
 
 ### Install mock-data-generator Helm chart
 
