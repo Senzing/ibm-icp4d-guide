@@ -2,9 +2,17 @@
 
 ## Overview
 
-This repository illustrates a reference implementation of Senzing on the IBM Cloud Private for Data
+This repository illustrates a reference implementation of Senzing on the IBM Cloud Private for Data.
 
-The following diagram shows the relationship of the Helm charts, docker containers, and code in this IBM Cloud Private for Data demonstration.
+The instructions show how to set up a system that:
+
+1. Reads JSON lines from a file on the internet.
+1. Sends each JSON line as a message to a Kafka topic.
+1. Reads messages from the Kafka topic and inserts into Senzing.
+    1. In this implementation, Senzing keeps its data in an IBM Db2 database.
+1. Reads information from Senzing via [Senzing REST API](https://github.com/Senzing/senzing-rest-api) server. 
+
+The following diagram shows the relationship of the Helm charts, docker containers, and code in this IBM Cloud Private for Data reference implementation.
 
 ![Image of architecture](docs/architecture.png)
 
@@ -24,6 +32,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Set environment variables](#set-environment-variables)
     1. [Add helm repositories](#add-helm-repositories)
     1. [Deploy Senzing_API.tgz package](#deploy-senzing_apitgz-package)
+    1. [Install Senzing license](#install-senzing-license)
     1. [Install mock-data-generator Helm chart](#install-mock-data-generator-helm-chart)
     1. [Install stream-loader Helm chart](#install-stream-loader-helm-chart)
     1. [Install senzing-api-server Helm chart](#install-senzing-api-server-helm-chart)
@@ -312,16 +321,20 @@ The Git repository has files that will be used in the `helm install --values` pa
 This is an optional step.
 Senzing comes with a trial license that supports 10,000 entities.
 
-
 1. If working with more entities,
-   [obtain a Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/obtain-senzing-license.md)
+   [obtain a Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/obtain-senzing-license.md).
 
-1. With the `g2.lic` file, ...
+1. Enter the "`senzing-debug`" pod as described above.
+    
+1. FIXME:  `ssh` the `g2.lic` file to the `senzing-debug` pod.  Example:
 
-1. FIXME: 
-
-
-
+    ```console
+    FIXME: need example.
+    ```
+    
+1. In the `senzing-debug` pod, place the license file at `/opt/senzing/g2/data/g2.lic`.
+    1. Note: `/opt/senzing` is attached as a Kubernetes Persistent Volume Claim (PVC),
+       so the license will be seen by all pods that attach to the PVC.
 
 ### Install mock-data-generator Helm chart
 
