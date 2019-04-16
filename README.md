@@ -450,7 +450,6 @@ See `kubectl port-forward ...` above.
 
 ## Cleanup
 
-
 ### Delete Helm charts
 
 1. Example:
