@@ -10,7 +10,7 @@ The instructions show how to set up a system that:
 1. Sends each JSON line as a message to a Kafka topic.
 1. Reads messages from the Kafka topic and inserts into Senzing.
     1. In this implementation, Senzing keeps its data in an IBM Db2 database.
-1. Reads information from Senzing via [Senzing REST API](https://github.com/Senzing/senzing-rest-api) server. 
+1. Reads information from Senzing via [Senzing REST API](https://github.com/Senzing/senzing-rest-api) server.
 
 The following diagram shows the relationship of the Helm charts, docker containers, and code in this IBM Cloud Private for Data reference implementation.
 
@@ -158,7 +158,7 @@ The Git repository has files that will be used in the `helm install --values` pa
           https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql
         ```
 
-#### Run SQL file 
+#### Run SQL file
 
 1. Variation #1. Create tables in the database using command line. Example:
 
@@ -279,14 +279,14 @@ The Git repository has files that will be used in the `helm install --values` pa
       senzing/senzing-package
     ```
 
-1.  **Important:** Wait until job runs to completion before continuing.
-    This will take a few minutes.
-    Example of completed job:
-    
+1. **Important:** Wait until job runs to completion before continuing.
+   This will take a few minutes.
+   Example of completed job:
+
     ```console
     # kubectl get pods --namespace ${DEMO_NAMESPACE}  | grep senzing
-    
-    senzing-package-r6z86                                             0/1     Completed   0          4m29s    
+
+    senzing-package-r6z86                                             0/1     Completed   0          4m29s
     ```
 
     Note that the job in the example took four and a half minutes to complete.
@@ -321,10 +321,12 @@ The Git repository has files that will be used in the `helm install --values` pa
 This is an optional step.
 Senzing comes with a trial license that supports 10,000 records.
 
-1. If working with more entities,
+1. If working with more records,
    [obtain a Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/obtain-senzing-license.md).
 
-1. Copy the `g2.lic` file to the `senzing-debug` pod at `/opt/senzing/g2/data/g2.lic`.  Example:
+1. Copy the `g2.lic` file to the `senzing-debug` pod
+   at `/opt/senzing/g2/data/g2.lic`.
+   Example:
 
     ```console
     kubectl cp \
@@ -332,7 +334,7 @@ Senzing comes with a trial license that supports 10,000 records.
       /path/to/local/g2.lic \
       senzing-debug-nnnnnnnnn-nnnnn:/opt/senzing/g2/data/g2.lic
     ```
-    
+
 1. Note: `/opt/senzing` is attached as a Kubernetes Persistent Volume Claim (PVC),
    so the license will be seen by all pods that attach to the PVC.
 
@@ -447,7 +449,6 @@ See `kubectl port-forward ...` above.
 
 ### Delete everything in project
 
-
 #### Delete Helm charts
 
 1. Example:
@@ -486,6 +487,6 @@ See `kubectl port-forward ...` above.
       --topic senzing-kafka-topic
     ```
 
-#### FIXME: Delete database.
+#### FIXME: Delete database
 
 1. Example:
