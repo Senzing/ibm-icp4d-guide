@@ -280,7 +280,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     senzing-package-r6z86                                             0/1     Completed   0          4m29s    
     ```
 
-    Note that the job took four and a half minutes to complete.
+    Note that the job in the example took four and a half minutes to complete.
 
 1. Optional: To inspect the `/opt/senzing` volume, run a Senzing debug image.
 
