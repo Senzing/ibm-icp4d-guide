@@ -112,7 +112,7 @@ The Git repository has files that will be used in the `helm install --values` pa
       --partitions 50 \
       --topic senzing-kafka-topic
     ```
-    
+
     1. "50" partitions was chosen because a 5-to-1 ratio
        of Kafka partitions to Senzing "stream-loaders" is recommended.
        Below, 10 Senzing "stream loaders" will be created.
@@ -131,7 +131,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     kubectl get service --namespace zen | grep kafka
     ```
 
-1. Identify the service host with type of `NodePort`.  Example:
+1. Outside of the Kafka pod, identify the service host with type of `NodePort`.  Example:
 
     ```console
     export KAFKA_HOST=kafka-external
@@ -287,49 +287,61 @@ The Git repository has files that will be used in the `helm install --values` pa
     ```
 
 1. **Important:** Wait until job runs to completion before continuing.
-   This will take a few minutes.
+   This will take a few minutes. Example:
+
+    ```console
+    watch -n 5 -d "kubectl get pods --namespace ${DEMO_NAMESPACE} | grep senzing"
+    ```
+
    Example of completed job:
 
     ```console
-    # kubectl get pods --namespace ${DEMO_NAMESPACE}  | grep senzing
-
     senzing-package-r6z86                                             0/1     Completed   0          4m29s
     ```
 
     Note that the job in the example took four and a half minutes to complete.
 
-1. Optional: To inspect the `/opt/senzing` volume, run a Senzing debug image.
+### Install senzing-debug Helm Chart
 
-    1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml`.
-        1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
-        1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
+This deployment will be used later to:
+    * Inspect the `/opt/senzing` volume
+    * Copy files onto the Persistent Volume
+    * Debug issues
 
-    1. Install chart.  Example:
+1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml`.
+    1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
+    1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
-        ```console
-        helm install ${HELM_TLS} \
-          --name senzing-debug \
-          --namespace ${DEMO_NAMESPACE} \
-          --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml \
-          senzing/senzing-debug
-        ```
+1. Install chart.  Example:
 
-    1. Find and enter pod.  Example:
+    ```console
+    helm install ${HELM_TLS} \
+      --name senzing-debug \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml \
+       senzing/senzing-debug
+    ```
 
-        ```console
-        kubectl get pods --namespace ${DEMO_NAMESPACE}
+1. Find and enter pod.  Example:
 
-        export POD_NAME=senzing-debug-XXXXXX
-        kubectl exec -it --namespace ${DEMO_NAMESPACE} ${POD_NAME} -- /bin/bash
-        ```
+    ```console
+    kubectl get pods --namespace ${DEMO_NAMESPACE}
+    export POD_NAME=senzing-debug-XXXXXX
+    kubectl exec -it --namespace ${DEMO_NAMESPACE} ${POD_NAME} -- /bin/bash
+    ```
 
 ### Install Senzing license
 
 This is an optional step.
 Senzing comes with a trial license that supports 10,000 records.
+If this is sufficient, there is no need to install a new license
+and this step may be skipped.
 
-1. If working with more records,
+1. If working with more than 10,000 records,
    [obtain a Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/obtain-senzing-license.md).
+
+1. Be sure the `senzing-debug` Helm Chart has been installed.
+   See "[Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)".
 
 1. Copy the `g2.lic` file to the `senzing-debug` pod
    at `/opt/senzing/g2/data/g2.lic`.
@@ -361,7 +373,8 @@ different components that feed Kafka.
 1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/mock-data-generator.yaml`.
     1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
     1. `senzing.inputUrl` is a URL addressable file of JSON LINES. (e.g. `file://`, `http://`).
-    1. `senzing.recordMax` is the maximum number of JSON LINES to read from the file.  Remove or 0 to read all lines.
+    1. `senzing.recordMax` is the maximum number of JSON LINES to read from the file.
+       Remove or set to 0 to read all lines.
 
 1. Perform Helm install. Example:
 
@@ -424,7 +437,7 @@ different components that feed Kafka.
 1. Wait for pods to run. Example:
 
     ```console
-    watch -n 5 -d kubectl get pods --namespace ${DEMO_NAMESPACE}
+    watch -n 5 -d "kubectl get pods --namespace ${DEMO_NAMESPACE} | grep senzing"
     ```
 
 1. Port forward to local machine.  Run in a separate terminal window. Example:
