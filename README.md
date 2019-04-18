@@ -173,6 +173,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
         ```console
         su - db2inst1
+        source sqllib/db2profile        
         db2 create database g2 using codeset utf-8 territory us
         ```
 
@@ -180,6 +181,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
         ```console
         su - db2inst1
+        source sqllib/db2profile
         db2 connect to g2
         db2 -tf g2core-schema-db2-create.sql
         db2 connect reset
