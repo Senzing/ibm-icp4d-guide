@@ -173,18 +173,23 @@ The Git repository has files that will be used in the `helm install --values` pa
 
         ```console
         su - db2inst1
+        export DB2_DATABASE=g2
+        
         source sqllib/db2profile        
-        db2 create database g2 using codeset utf-8 territory us
+        db2 create database ${DB2_DATABASE} using codeset utf-8 territory us
         ```
 
     1. Create tables in schema.  Example:
 
         ```console
         su - db2inst1
+        export DB2_DATABASE=g2
+        export DB2_USER=db2inst1
+        
         source sqllib/db2profile
-        db2 connect to g2
-        db2 -tf g2core-schema-db2-create.sql
-        db2 connect reset
+        db2 connect to ${DB2_DATABASE} user ${DB2_USER}
+        db2 -tvf g2core-schema-db2-create.sql
+        db2 terminate
         ```
 
 1. Variation #2.  **FIXME:** Using the IBM Cloud Private for Data console with DB2 Advanced ...
