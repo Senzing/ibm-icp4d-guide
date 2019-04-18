@@ -338,8 +338,8 @@ This deployment will be used later to:
 
     ```console
     kubectl get pods --namespace ${DEMO_NAMESPACE}
-    export POD_NAME=senzing-debug-XXXXXX
-    kubectl exec -it --namespace ${DEMO_NAMESPACE} ${POD_NAME} -- /bin/bash
+    export DEBUG_POD_NAME=senzing-debug-XXXXXX
+    kubectl exec -it --namespace ${DEMO_NAMESPACE} ${DEBUG_POD_NAME} -- /bin/bash
     ```
 
 ### Install Senzing license
@@ -363,7 +363,7 @@ and this step may be skipped.
     kubectl cp \
       --namespace ${DEMO_NAMESPACE} \
       /path/to/local/g2.lic \
-      senzing-debug-nnnnnnnnn-nnnnn:/opt/senzing/g2/data/g2.lic
+      ${DEBUG_POD_NAME}:/opt/senzing/g2/data/g2.lic
     ```
 
 1. Note: `/opt/senzing` is attached as a Kubernetes Persistent Volume Claim (PVC),
