@@ -1,0 +1,7 @@
+image:
+  pullPolicy: Always
+
+senzing:
+  databaseUrl: "${SENZING_DATABASE_URL}"
+  entrypointSleep: 0
+  optSenzingClaim: user-home-pvc

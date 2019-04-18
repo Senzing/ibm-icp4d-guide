@@ -1,0 +1,17 @@
+image:
+  pullPolicy: Always
+
+replicaCount: 10
+
+senzing:
+  subcommand: kafka
+  databaseUrl: "${SENZING_DATABASE_URL}"
+  dataSource: PEOPLE
+  entityType: PEOPLE
+  kafkaBootstrapServerHost: kafka-external
+  kafkaBootstrapServerPort: 9092
+  kafkaTopic: senzing-kafka-topic
+  logLevel: info
+  monitoringPeriod: 60
+  optSenzingClaim: user-home-pvc
+  threadsPerProcess: 4

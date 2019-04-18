@@ -1,0 +1,9 @@
+image:
+  pullPolicy: Always
+
+senzing:
+  bindAddr: "all"
+  concurrency: 8
+  databaseUrl: "${SENZING_DATABASE_URL}"
+  iniFile: "/opt/senzing/g2/python/G2Module.ini"
+  optSenzingClaim: user-home-pvc

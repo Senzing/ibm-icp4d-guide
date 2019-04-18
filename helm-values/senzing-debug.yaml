@@ -1,0 +1,6 @@
+image:
+  pullPolicy: Always
+
+senzing:
+  databaseUrl: "${SENZING_DATABASE_URL}"
+  optSenzingClaim: user-home-pvc
