@@ -208,6 +208,35 @@ The Git repository has files that will be used in the `helm install --values` pa
         1. In file browser, navigate to SQL file
         1. Click "Run all" button
 
+### Database tuning
+
+**FIXME:** Continue to improve.
+
+ 
+1. For information on tuning the database for optimum performance, see
+   [Tuning your Database](https://senzing.zendesk.com/hc/en-us/articles/360016288254-Tuning-your-Database).
+
+1. Additional tuning parameters to try:
+
+    ```console
+    db2set DB2_USE_ALTERNATE_PAGE_CLEANING=ON
+    db2set DB2_APPENDERS_PER_PAGE=1
+    db2set DB2_INLIST_TO_NLJN=YES
+    db2set DB2_LOGGER_NON_BUFFERED_IO=ON
+    db2set DB2_SKIP_LOG_WAIT=YES
+    db2set DB2_APM_PERFORMANCE=off
+    db2set DB2_SKIPLOCKED_GRAMMAR=YES
+    ```
+
+1. XXX
+
+    ```console
+    db2 connect to ${DB2_DATABASE} user ${DB2_USER}
+    
+    db2 UPDATE SYS_SEQUENCE SET CACHE_SIZE=100000
+    db2 commit
+    ```
+
 ### Database connection information
 
 1. Craft the `SENZING_DATABASE_URL`.  It will be used in "helm values" files.
