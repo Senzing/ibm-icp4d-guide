@@ -90,13 +90,13 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Kafka initialization
 
-1. Find pod running kafka. Example:
+1. Find pod running kafka.  Example:
 
     ```console
     kubectl get pods -n zen | grep kafka
     ```
 
-1. Enter the pod. Example:
+1. Enter the pod.  Example:
 
     ```console
     kubectl exec -it kafka-0 -n zen bash
@@ -125,7 +125,7 @@ The Git repository has files that will be used in the `helm install --values` pa
       --zookeeper zookeeper:2181/kafka
     ```
 
-1. Outside of the Kafka pod, find the running Kafka services. Example:
+1. Outside of the Kafka pod, find the running Kafka services.  Example:
 
     ```console
     kubectl get service --namespace zen | grep kafka
@@ -146,7 +146,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. For **IBM Db2** use one of these techniques:
     1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql`
     1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-create.sql)
-    1. Using `curl`. Example:
+    1. Using `curl`.  Example:
 
         ```console
         curl -X GET \
@@ -157,7 +157,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. For **IBM Db2 BLU** use one of these techniques:
     1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-BLU-create.sql`
     1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql)
-    1. Using `curl`. Example:
+    1. Using `curl`.  Example:
 
         ```console
         curl -X GET \
@@ -167,9 +167,9 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 #### Run SQL file
 
-1. Variation #1. Create tables in the database using command line. Example:
+1. Variation #1. Create tables in the database using command line.  Example:
 
-    1. If needed, create a database for Senzing data. Example:
+    1. If needed, create a database for Senzing data.  Example:
 
         ```console
         su - db2inst1
@@ -212,7 +212,6 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 **FIXME:** Continue to improve.
 
- 
 1. For information on tuning the database for optimum performance, see
    [Tuning your Database](https://senzing.zendesk.com/hc/en-us/articles/360016288254-Tuning-your-Database).
 
@@ -232,7 +231,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
     ```console
     db2 connect to ${DB2_DATABASE} user ${DB2_USER}
-    
+
     db2 UPDATE SYS_SEQUENCE SET CACHE_SIZE=100000
     db2 commit
     ```
@@ -251,7 +250,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     export DATABASE_DATABASE=<database-name>
     ```
 
-    Example:
+    :pencil2: Set environment variables.  Example:
 
     ```console
     export DATABASE_USERNAME=johnsmith
@@ -259,7 +258,11 @@ The Git repository has files that will be used in the `helm install --values` pa
     export DATABASE_HOST=my.database.com
     export DATABASE_PORT=50000
     export DATABASE_DATABASE=G2
+    ```
 
+    Construct database URL.  Example:
+
+    ```console
     export SENZING_DATABASE_URL="db2://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}"
 
     echo ${SENZING_DATABASE_URL}
@@ -294,7 +297,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     helm repo add senzing https://senzing.github.io/charts/
     ```
 
-1. Optional:  View Senzing Helm charts in repository. Example:
+1. Optional:  View Senzing Helm charts in repository.  Example:
 
     ```console
     helm search senzing/
@@ -317,7 +320,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-package.yaml`.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
-1. Perform Helm install. Example:
+1. Perform Helm install.  Example:
 
     ```console
     helm install ${HELM_TLS} \
@@ -328,7 +331,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     ```
 
 1. **Important:** Wait until job runs to completion before continuing.
-   This will take a few minutes. Example:
+   This will take a few minutes.  Example:
 
     ```console
     watch -n 5 -d "kubectl get pods --namespace ${DEMO_NAMESPACE} | grep senzing"
@@ -363,7 +366,7 @@ This deployment will be used later to:
        senzing/senzing-debug
     ```
 
-1. Find and enter pod.  Example:
+1. :pencil2: Find and enter pod.  Example:
 
     ```console
     kubectl get pods --namespace ${DEMO_NAMESPACE}
@@ -417,7 +420,7 @@ different components that feed Kafka.
     1. `senzing.recordMax` is the maximum number of JSON LINES to read from the file.
        Remove or set to 0 to read all lines.
 
-1. Perform Helm install. Example:
+1. Perform Helm install.  Example:
 
     ```console
     helm install ${HELM_TLS} \
@@ -441,7 +444,7 @@ different components that feed Kafka.
     1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
-1. Perform Helm install. Example:
+1. Perform Helm install.  Example:
 
     ```console
     helm install ${HELM_TLS} \
@@ -465,7 +468,7 @@ different components that feed Kafka.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
-1. Perform Helm install. Example:
+1. Perform Helm install.  Example:
 
     ```console
     helm install ${HELM_TLS} \
@@ -475,17 +478,23 @@ different components that feed Kafka.
       senzing/senzing-api-server
     ```
 
-1. Wait for pods to run. Example:
+1. Wait for pods to run.  Example:
 
     ```console
     watch -n 5 -d "kubectl get pods --namespace ${DEMO_NAMESPACE} | grep senzing"
     ```
 
-1. Port forward to local machine.  Run in a separate terminal window. Example:
+1. Port forward to local machine.  Run in a separate terminal window.  Example:
+
+    :pencil2: Set environment variable.  Example:
 
     ```console
     export DEMO_NAMESPACE=zen
+    ```
 
+    Port forward.  Example:
+
+    ```console
     kubectl port-forward \
       --namespace ${DEMO_NAMESPACE} \
       svc/senzing-api-server 8889:80
@@ -523,15 +532,13 @@ See `kubectl port-forward ...` above.
 
 ### Delete Kafka topic
 
-1. FIXME: Example:
-
-1. Find pod running kafka. Example:
+1. Find pod running kafka.  Example:
 
     ```console
     kubectl get pods -n zen | grep kafka
     ```
 
-1. Enter the pod. Example:
+1. Enter the pod.  Example:
 
     ```console
     kubectl exec -it kafka-0 -n zen bash
@@ -551,3 +558,9 @@ See `kubectl port-forward ...` above.
 1. **FIXME:** Example:
 
 ### Delete git repository
+
+1. Delete git repository.  Example:
+
+    ```console
+    sudo rm -rf ${GIT_REPOSITORY_DIR}
+    ```
