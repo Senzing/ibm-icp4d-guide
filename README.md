@@ -99,7 +99,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Enter the pod.  Example:
 
     ```console
-    kubectl exec -it kafka-0 -n zen bash
+    kubectl exec -it kafka-0 -n zen  -- /bin/bash
     ```
 
 1. Within the Kafka pod, create Kafka topic for Senzing.  Example:
@@ -317,7 +317,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-package)
     1. [Docker](https://hub.docker.com/r/senzing/senzing-package)
 
-1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-package.yaml`.
+1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-package.yaml`.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
 1. Perform Helm install.  Example:
@@ -340,7 +340,7 @@ The Git repository has files that will be used in the `helm install --values` pa
    Example of completed job:
 
     ```console
-    senzing-package-r6z86                                             0/1     Completed   0          4m29s
+    senzing-package-r6z86               0/1     Completed   0          4m29s
     ```
 
     Note that the job in the example took four and a half minutes to complete.
@@ -352,7 +352,7 @@ This deployment will be used later to:
     * Copy files onto the Persistent Volume
     * Debug issues
 
-1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml`.
+1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
@@ -389,12 +389,19 @@ and this step may be skipped.
 
 1. Copy the `g2.lic` file to the `senzing-debug` pod
    at `/opt/senzing/g2/data/g2.lic`.
-   Example:
+
+    :pencil2: Identify location of `g2.lic` on local workstation.  Example:
+
+    ```console
+    export G2_LICENSE_PATH=/path/to/local/g2.lic
+    ```
+
+    Copy file to debug pod.  Example:
 
     ```console
     kubectl cp \
       --namespace ${DEMO_NAMESPACE} \
-      /path/to/local/g2.lic \
+      ${G2_LICENSE_PATH} \
       ${DEBUG_POD_NAME}:/opt/senzing/g2/data/g2.lic
     ```
 
@@ -414,7 +421,7 @@ different components that feed Kafka.
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-mock-data-generator)
     1. [Docker](https://hub.docker.com/r/senzing/mock-data-generator)
 
-1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/mock-data-generator.yaml`.
+1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/mock-data-generator.yaml`.
     1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
     1. `senzing.inputUrl` is a URL addressable file of JSON LINES. (e.g. `file://`, `http://`).
     1. `senzing.recordMax` is the maximum number of JSON LINES to read from the file.
@@ -439,7 +446,7 @@ different components that feed Kafka.
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-stream-loader)
     1. [Docker](https://hub.docker.com/r/senzing/stream-loader)
 
-1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/stream-loader.yaml`.
+1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/stream-loader.yaml`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
@@ -464,7 +471,7 @@ different components that feed Kafka.
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-api-server)
     1. [Docker](https://hub.docker.com/r/senzing/senzing-api-server)
 
-1. Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-api-server`.
+1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-api-server`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
@@ -486,10 +493,11 @@ different components that feed Kafka.
 
 1. Port forward to local machine.  Run in a separate terminal window.  Example:
 
-    :pencil2: Set environment variable.  Example:
+    :pencil2: Set environment variables.  Example:
 
     ```console
     export DEMO_NAMESPACE=zen
+    export SENZING_API_PORT=8889
     ```
 
     Port forward.  Example:
@@ -497,18 +505,15 @@ different components that feed Kafka.
     ```console
     kubectl port-forward \
       --namespace ${DEMO_NAMESPACE} \
-      svc/senzing-api-server 8889:80
+      svc/senzing-api-server ${SENZING_API_PORT}:80
     ```
 
 ### Test Senzing REST API server
 
-*Note:* port 8889 on the localhost has been mapped to port 80 in the docker container.
-See `kubectl port-forward ...` above.
-
 1. Example:
 
     ```console
-    export SENZING_API_SERVICE=http://localhost:8889
+    export SENZING_API_SERVICE=http://localhost:${SENZING_API_PORT}
 
     curl -X GET ${SENZING_API_SERVICE}/heartbeat
     curl -X GET ${SENZING_API_SERVICE}/license
@@ -541,10 +546,10 @@ See `kubectl port-forward ...` above.
 1. Enter the pod.  Example:
 
     ```console
-    kubectl exec -it kafka-0 -n zen bash
+    kubectl exec -it kafka-0 -n zen  -- /bin/bash
     ```
 
-1. Within the Kafka pod, create Kafka topic for Senzing.  Example:
+1. Within the Kafka pod, delete Kafka topic for Senzing.  Example:
 
     ```console
     /opt/kafka/bin/kafka-topics.sh \
