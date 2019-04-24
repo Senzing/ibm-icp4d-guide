@@ -24,6 +24,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Background knowledge](#background-knowledge)
 1. [Prerequisites](#prerequisites)
     1. [Clone repository](#clone-repository)
+    1. [Registry authorization](#registry-authorization)
     1. [Docker images](#docker-images)
     1. [Kafka initialization](#kafka-initialization)
     1. [Database initialization](#database-initialization)
@@ -83,26 +84,33 @@ The Git repository has files that will be used in the `helm install --values` pa
     export GIT_ACCOUNT_DIR=~/${GIT_ACCOUNT}.git
     export GIT_REPOSITORY_DIR="${GIT_ACCOUNT_DIR}/${GIT_REPOSITORY}"
     ```
+
+### Registry authorization
+
+1. To enable the ICP4D image policy that allows pulling from `docker.io`,
+   visit the "Customizing your policy (post installation)" section of
+   [Enforcing container image security](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/manage_images/image_security.html).
+
+   Create a `policy.yaml` file.  Example:
+
+    ```yaml
+    apiVersion: securityenforcement.admission.cloud.ibm.com/v1beta1
+    kind: ClusterImagePolicy
+    metadata:
+      name: senzingaddon
+      namespace: zen
+    spec:
+     repositories:
+     # Docker hub Container Registry
+      - name: "docker.io/*"
+        policy:
     ```
-1.  The following IBM documentation describes what is requuired in order to enable the ICP4D image policy to accept the creation of helm charts and pods pulled from github.io:
-```
-https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/manage_images/image_security.html
-```
-It shows you create a policy.yaml file as follows:
-```
-apiVersion: securityenforcement.admission.cloud.ibm.com/v1beta1
-kind: ClusterImagePolicy
-metadata:
-  name: senzingaddon
-  namespace: zen
-spec:
- repositories:
- # Docker hub Container Registry
-  - name: "docker.io/*"
-    policy:
-```
-Next, you issue 'kubectl apply -f policy.yaml'
-```    
+
+    Apply `policy.yaml`
+
+    ```console
+    kubectl apply -f policy.yaml
+    ```
 
 ### Docker images
 
