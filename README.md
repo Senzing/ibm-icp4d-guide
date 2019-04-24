@@ -85,31 +85,27 @@ The Git repository has files that will be used in the `helm install --values` pa
     export GIT_REPOSITORY_DIR="${GIT_ACCOUNT_DIR}/${GIT_REPOSITORY}"
     ```
 
+### Set namespace
+
+1. Environment variable for namespace.  Example:
+
+    ```console
+    export DEMO_NAMESPACE=zen
+    ```
+
 ### Registry authorization
 
 1. To enable the ICP4D image policy that allows pulling from `docker.io`,
    visit the "Customizing your policy (post installation)" section of
    [Enforcing container image security](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/manage_images/image_security.html).
 
-   Create a `policy.yaml` file.  Example:
-
-    ```yaml
-    apiVersion: securityenforcement.admission.cloud.ibm.com/v1beta1
-    kind: ClusterImagePolicy
-    metadata:
-      name: senzingaddon
-      namespace: zen
-    spec:
-     repositories:
-     # Docker hub Container Registry
-      - name: "docker.io/*"
-        policy:
-    ```
-
-    Apply `policy.yaml`
+1. Review / modify ${GIT_REPOSITORY_DIR}/kubernetes/enable-docker-io.yaml
+  
+1. Apply policy.  Example:
 
     ```console
-    kubectl apply -f policy.yaml
+    kubectl apply \
+      --filename ${GIT_REPOSITORY_DIR}/kubernetes/enable-docker-io.yaml
     ```
 
 ### Docker images
@@ -121,13 +117,13 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Find pod running kafka.  Example:
 
     ```console
-    kubectl get pods -n zen | grep kafka
+    kubectl get pods --namespace ${DEMO_NAMESPACE} | grep kafka
     ```
 
 1. Enter the pod.  Example:
 
     ```console
-    kubectl exec -it kafka-0 -n zen  -- /bin/bash
+    kubectl exec -it kafka-0 --namespace ${DEMO_NAMESPACE}  -- /bin/bash
     ```
 
 1. Within the Kafka pod, create Kafka topic for Senzing.  Example:
@@ -156,7 +152,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Outside of the Kafka pod, find the running Kafka services.  Example:
 
     ```console
-    kubectl get service --namespace zen | grep kafka
+    kubectl get service --namespace ${DEMO_NAMESPACE} | grep kafka
     ```
 
 1. Outside of the Kafka pod, identify the service host with type of `NodePort`.  Example:
@@ -255,7 +251,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     db2set DB2_SKIPLOCKED_GRAMMAR=YES
     ```
 
-1. XXX
+1. Additional tuning parameters to try:
 
     ```console
     db2 connect to ${DB2_DATABASE} user ${DB2_USER}
@@ -568,13 +564,13 @@ different components that feed Kafka.
 1. Find pod running kafka.  Example:
 
     ```console
-    kubectl get pods -n zen | grep kafka
+    kubectl get pods --namespace ${DEMO_NAMESPACE} | grep kafka
     ```
 
 1. Enter the pod.  Example:
 
     ```console
-    kubectl exec -it kafka-0 -n zen  -- /bin/bash
+    kubectl exec -it kafka-0 --namespace ${DEMO_NAMESPACE}  -- /bin/bash
     ```
 
 1. Within the Kafka pod, delete Kafka topic for Senzing.  Example:
