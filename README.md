@@ -407,6 +407,7 @@ and this step may be skipped.
 
 1. If working with more than 10,000 records,
    [obtain a Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/obtain-senzing-license.md).
+   (FIXME: Method not established.)
 
 1. Be sure the `senzing-debug` Helm Chart has been installed.
    See "[Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)".
