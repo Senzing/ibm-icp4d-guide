@@ -119,24 +119,24 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 1. For **IBM Db2** use one of these techniques:
     1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql`
-    1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-create.sql)
+    1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/master/sql/g2core-schema-db2-create.sql)
     1. Using `curl`.  Example:
 
         ```console
         curl -X GET \
           --output /tmp/g2core-schema-db2-create.sql \
-          https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-create.sql
+          https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/master/sql/g2core-schema-db2-create.sql
         ```
 
 1. For **IBM Db2 BLU** use one of these techniques:
     1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-BLU-create.sql`
-    1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql)
+    1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/master/sql/g2core-schema-db2-BLU-create.sql)
     1. Using `curl`.  Example:
 
         ```console
         curl -X GET \
           --output /tmp/g2core-schema-db2-BLU-create.sql \
-          https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql
+          https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/master/sql/g2core-schema-db2-BLU-create.sql
         ```
 
 #### Run SQL file
@@ -363,7 +363,6 @@ and this step may be skipped.
 
 1. If working with more than 10,000 records,
    [obtain a Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/obtain-senzing-license.md).
-   (FIXME: Method not established.)
 
 1. Be sure the `senzing-debug` Helm Chart has been installed.
    See "[Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)".
@@ -554,6 +553,7 @@ different components that feed RabbitMQ.
     helm delete ${HELM_TLS} --purge senzing-api-server
     helm delete ${HELM_TLS} --purge senzing-stream-loader
     helm delete ${HELM_TLS} --purge senzing-mock-data-generator
+    helm delete ${HELM_TLS} --purge senzing-rabbitmq
     helm delete ${HELM_TLS} --purge senzing-debug
     helm delete ${HELM_TLS} --purge senzing-package
     helm repo remove senzing
