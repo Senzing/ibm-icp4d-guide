@@ -11,7 +11,7 @@ senzing:
   logLevel: info
   monitoringPeriod: 60
   optSenzingClaim: user-home-pvc
-  rabbitmqHost: rabbitmq
+  rabbitmqHost: senzing-rabbitmq
   rabbitmqPassword: passw0rd
   rabbitmqQueue: senzing-rabbitmq-queue
   rabbitmqUsername: user

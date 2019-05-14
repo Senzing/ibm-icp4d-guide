@@ -4,7 +4,7 @@ image:
 senzing:
   subcommand: url-to-rabbitmq
   inputUrl: "https://s3.amazonaws.com/public-read-access/TestDataSets/loadtest-dataset-1M_shuffled.json"
-  rabbitmqHost: rabbitmq
+  rabbitmqHost: senzing-rabbitmq
   rabbitmqPassword: passw0rd
   rabbitmqQueue: senzing-rabbitmq-queue
   rabbitmqUsername: user

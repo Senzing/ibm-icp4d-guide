@@ -27,7 +27,6 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Clone repository](#clone-repository)
     1. [Registry authorization](#registry-authorization)
     1. [Docker images](#docker-images)
-    1. [Kafka initialization](#kafka-initialization)
     1. [Database initialization](#database-initialization)
     1. [Database connection information](#database-connection-information)
 1. [Demonstrate](#demonstrate)
@@ -35,6 +34,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Add helm repositories](#add-helm-repositories)
     1. [Deploy Senzing_API.tgz package](#deploy-senzing_apitgz-package)
     1. [Install Senzing license](#install-senzing-license)
+    1. [Install RabbitMQ Helm Chart](#install-rabbitmq-helm-chart)
     1. [Install mock-data-generator Helm chart](#install-mock-data-generator-helm-chart)
     1. [Install stream-loader Helm chart](#install-stream-loader-helm-chart)
     1. [Install senzing-api-server Helm chart](#install-senzing-api-server-helm-chart)
@@ -388,6 +388,51 @@ and this step may be skipped.
 
 1. Note: `/opt/senzing` is attached as a Kubernetes Persistent Volume Claim (PVC),
    so the license will be seen by all pods that attach to the PVC.
+
+### Install RabbitMQ Helm chart
+
+1. This component is a queue between the raw data and `stream-loader.py`.
+
+   References:
+    1. [GitHub repository](https://github.com/bitnami/bitnami-docker-rabbitmq)
+    1. [Helm chart](https://github.com/bitnami/charts/tree/master/upstreamed/rabbitmq)
+    1. [Docker](https://hub.docker.com/r/bitnami/rabbitmq)
+
+1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/rabbitmq.yaml`.
+    1. `rabbitmq.username` is the username used to connect to RabbitMQ.
+    1. `rabbitmq.password` is the password for the `rabbitmq.username` user.
+    1. If username and/or password are changed, they also need to be changed in:
+        1. `${GIT_REPOSITORY_DIR}/helm-values/mock-data-generator-rabbitmq.yaml`
+        1. `${GIT_REPOSITORY_DIR}/helm-values/stream-loader-rabbitmq.yaml`
+
+1. Perform Helm install.  Example:
+
+    ```console
+    helm install ${HELM_TLS} \
+      --name senzing-rabbitmq \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${GIT_REPOSITORY_DIR}/helm-values/rabbitmq.yaml \
+      bitnami/rabbitmq
+    ```
+
+1. In a separate terminal window, port forward to local machine.
+
+    :pencil2: Set environment variables.  Example:
+
+    ```console
+    export DEMO_NAMESPACE=zen
+    ```
+
+    Port forward.  Example:
+
+    ```console
+    kubectl port-forward \
+      --address 0.0.0.0 \
+      --namespace ${DEMO_NAMESPACE} \
+      svc/senzing-rabbitmq 15672:15672
+    ```
+
+1. RabbitMQ Management user-interface is viewable at [localhost:15672](http://localhost:15672)
 
 ### Install mock-data-generator Helm chart
 
