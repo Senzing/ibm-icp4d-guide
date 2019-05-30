@@ -118,7 +118,7 @@ To accept the license:
 1. Visit [hub.docker.com/_/senzing-package](https://hub.docker.com/_/senzing-package).
 1. Login to DockerHub.
 1. On [hub.docker.com/_/senzing-package](https://hub.docker.com/_/senzing-package), click "Proceed to Checkout" button.
-1. Check boxes for agreeing and acknowledging
+1. Check boxes for agreeing and acknowledging.
 1. Click "Get Content" button.
 1. Verify image can be pulled from "Docker Store".  Example:
 
