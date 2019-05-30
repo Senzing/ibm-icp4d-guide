@@ -111,7 +111,20 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Docker images
 
-1. **FIXME:**  Describe how to accept terms and conditions for the senzing/senzing-package docker image.
+The use of the [store/senzing/senzing-package](https://hub.docker.com/_/senzing-package)
+docker image requires acceptance of an End User License agreement (EULA).
+To accept the license:
+
+1. Visit [hub.docker.com/_/senzing-package](https://hub.docker.com/_/senzing-package).
+1. Login to DockerHub.
+1. On [hub.docker.com/_/senzing-package](https://hub.docker.com/_/senzing-package), click "Proceed to Checkout" button.
+1. Check boxes for agreeing and acknowledging
+1. Click "Get Content" button.
+1. Verify image can be pulled from "Docker Store".  Example:
+
+   ```console
+   sudo docker pull store/senzing/senzing-package:0.0.1
+   ```
 
 ### Kafka initialization
 
