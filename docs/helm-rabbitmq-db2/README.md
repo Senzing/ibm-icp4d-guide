@@ -122,6 +122,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     export DOCKER_PASSWORD=<your-docker-password>
 
     export DOCKER_SERVER=https://index.docker.io/v1/
+    export DOCKER_REGISTRY_SECRET=dockerhub-secret
     ```
 
 1. Create a kubernetes secret.
@@ -305,7 +306,8 @@ The Git repository has files that will be used in the `helm install --values` pa
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-package)
     1. [Docker](https://hub.docker.com/r/senzing/senzing-package)
 
-1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-package.yaml`.
+1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-package.yaml`.
+    1. `imagePullSecrets.name` needs to be modified with the value of ${DOCKER_REGISTRY_SECRET}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
 1. Perform Helm install.  Example:
@@ -340,7 +342,7 @@ This deployment will be used later to:
     * Copy files onto the Persistent Volume
     * Debug issues
 
-1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml`.
+1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
@@ -405,7 +407,7 @@ and this step may be skipped.
     1. [Helm chart](https://github.com/helm/charts/tree/master/stable/rabbitmq)
     1. [Docker](https://hub.docker.com/r/bitnami/rabbitmq)
 
-1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/rabbitmq.yaml`.
+1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/rabbitmq.yaml`.
     1. `rabbitmq.username` is the username used to connect to RabbitMQ.
     1. `rabbitmq.password` is the password for the `rabbitmq.username` user.
     1. If username and/or password are changed, they also need to be changed in:
@@ -454,7 +456,7 @@ different components that feed RabbitMQ.
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-mock-data-generator)
     1. [Docker](https://hub.docker.com/r/senzing/mock-data-generator)
 
-1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/mock-data-generator-rabbitmq.yaml`.
+1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/mock-data-generator-rabbitmq.yaml`.
     1. `senzing.inputUrl` is a URL addressable file of JSON LINES. (e.g. `file://`, `http://`).
     1. `senzing.recordMax` is the maximum number of JSON LINES to read from the file.
        Remove or set to 0 to read all lines.
@@ -478,7 +480,7 @@ different components that feed RabbitMQ.
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-stream-loader)
     1. [Docker](https://hub.docker.com/r/senzing/stream-loader)
 
-1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/stream-loader-rabbitmq.yaml`.
+1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/stream-loader-rabbitmq.yaml`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
@@ -502,7 +504,7 @@ different components that feed RabbitMQ.
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-api-server)
     1. [Docker](https://hub.docker.com/r/senzing/senzing-api-server)
 
-1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-api-server`.
+1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-api-server`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
@@ -565,29 +567,6 @@ different components that feed RabbitMQ.
     helm delete ${HELM_TLS} --purge senzing-debug
     helm delete ${HELM_TLS} --purge senzing-package
     helm repo remove senzing
-    ```
-
-### Delete Kafka topic
-
-1. Find pod running kafka.  Example:
-
-    ```console
-    kubectl get pods --namespace ${DEMO_NAMESPACE} | grep kafka
-    ```
-
-1. Enter the pod.  Example:
-
-    ```console
-    kubectl exec -it kafka-0 --namespace ${DEMO_NAMESPACE}  -- /bin/bash
-    ```
-
-1. Within the Kafka pod, delete Kafka topic for Senzing.  Example:
-
-    ```console
-    /opt/kafka/bin/kafka-topics.sh \
-      --delete \
-      --zookeeper zookeeper:2181/kafka \
-      --topic senzing-kafka-topic
     ```
 
 ### Delete database tables
