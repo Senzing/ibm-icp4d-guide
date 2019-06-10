@@ -140,7 +140,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Database initialization
 
-#### Obtain correct SQL file
+#### Obtain SQL file
 
 1. For **IBM Db2** use one of these techniques:
     1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql`
@@ -151,17 +151,6 @@ The Git repository has files that will be used in the `helm install --values` pa
         curl -X GET \
           --output /tmp/g2core-schema-db2-create.sql \
           https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/master/sql/g2core-schema-db2-create.sql
-        ```
-
-1. For **IBM Db2 BLU** use one of these techniques:
-    1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-BLU-create.sql`
-    1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/master/sql/g2core-schema-db2-BLU-create.sql)
-    1. Using `curl`.  Example:
-
-        ```console
-        curl -X GET \
-          --output /tmp/g2core-schema-db2-BLU-create.sql \
-          https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/master/sql/g2core-schema-db2-BLU-create.sql
         ```
 
 #### Run SQL file
@@ -189,7 +178,7 @@ The Git repository has files that will be used in the `helm install --values` pa
         db2 connect to ${DB2_DATABASE} user ${DB2_USER}
         ```
 
-        Submit password.
+        When requested, supply password.
 
         ```console
         db2 -tvf g2core-schema-db2-create.sql
