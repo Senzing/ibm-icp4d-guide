@@ -26,13 +26,15 @@ The following diagram shows the relationship of the Helm charts, docker containe
 1. [Prerequisites](#prerequisites)
     1. [Clone repository](#clone-repository)
     1. [Registry authorization](#registry-authorization)
-    1. [Docker images](#docker-images)
+    1. [Enable Docker images](#enable-docker-images)
     1. [Database initialization](#database-initialization)
+    1. [Database tuning](#database-tuning)
     1. [Database connection information](#database-connection-information)
 1. [Demonstrate](#demonstrate)
     1. [Set environment variables](#set-environment-variables)
     1. [Add helm repositories](#add-helm-repositories)
     1. [Deploy Senzing_API.tgz package](#deploy-senzing_apitgz-package)
+    1. [Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)
     1. [Install Senzing license](#install-senzing-license)
     1. [Install RabbitMQ Helm Chart](#install-rabbitmq-helm-chart)
     1. [Install mock-data-generator Helm chart](#install-mock-data-generator-helm-chart)
@@ -41,7 +43,6 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Test Senzing REST API server](#test-senzing-rest-api-server)
 1. [Cleanup](#cleanup)
     1. [Delete Helm charts](#delete-helm-charts)
-    1. [Delete Kafka topic](#delete-kafka-topic)
     1. [Delete database tables](#delete-database-tables)
     1. [Delete git repository](#delete-git-repository)
 
@@ -356,11 +357,24 @@ This deployment will be used later to:
        senzing/senzing-debug
     ```
 
-1. :pencil2: Find and enter pod.  Example:
+1. In a separate terminal window, log into debug pod.
+
+    :pencil2:  Set environment variables.  Example:
 
     ```console
-    kubectl get pods --namespace ${DEMO_NAMESPACE}
-    export DEBUG_POD_NAME=senzing-debug-XXXXXX
+    export DEMO_NAMESPACE=zen
+    ```
+
+    Log into pod.  Example:
+
+    ```console
+    export DEBUG_POD_NAME=$(kubectl get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --output jsonpath="{.items[0].metadata.name}" \
+      --selector "app.kubernetes.io/name=senzing-debug, \
+                  app.kubernetes.io/instance=senzing-debug" \
+      )
+
     kubectl exec -it --namespace ${DEMO_NAMESPACE} ${DEBUG_POD_NAME} -- /bin/bash
     ```
 
