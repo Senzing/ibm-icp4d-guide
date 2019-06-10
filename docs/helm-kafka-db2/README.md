@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository illustrates a reference implementation of Senzing on the IBM Cloud Private for Data.
+This repository illustrates a reference implementation of Senzing on the IBM Cloud Pak for Data.
 
 The instructions show how to set up a system that:
 
@@ -13,7 +13,7 @@ The instructions show how to set up a system that:
     1. In this implementation, Senzing keeps its data in an IBM Db2 database.
 1. Reads information from Senzing via [Senzing REST API](https://github.com/Senzing/senzing-rest-api) server.
 
-The following diagram shows the relationship of the Helm charts, docker containers, and code in this IBM Cloud Private for Data reference implementation.
+The following diagram shows the relationship of the Helm charts, docker containers, and code in this IBM Cloud Pak for Data reference implementation.
 
 ![Image of architecture](architecture.png)
 
@@ -25,15 +25,18 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Background knowledge](#background-knowledge)
 1. [Prerequisites](#prerequisites)
     1. [Clone repository](#clone-repository)
+    1. [Set namespace](#set-namespace)
     1. [Registry authorization](#registry-authorization)
-    1. [Docker images](#docker-images)
+    1. [Enable Docker images](#enable-docker-images)
     1. [Kafka initialization](#kafka-initialization)
     1. [Database initialization](#database-initialization)
+    1. [Database tuning](#database-tuning)
     1. [Database connection information](#database-connection-information)
 1. [Demonstrate](#demonstrate)
     1. [Set environment variables](#set-environment-variables)
     1. [Add helm repositories](#add-helm-repositories)
     1. [Deploy Senzing_API.tgz package](#deploy-senzing_apitgz-package)
+    1. [Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)
     1. [Install Senzing license](#install-senzing-license)
     1. [Install mock-data-generator Helm chart](#install-mock-data-generator-helm-chart)
     1. [Install stream-loader Helm chart](#install-stream-loader-helm-chart)
@@ -109,22 +112,35 @@ The Git repository has files that will be used in the `helm install --values` pa
       --filename ${GIT_REPOSITORY_DIR}/kubernetes/enable-docker-io.yaml
     ```
 
-### Docker images
+### Enable Docker images
 
-The use of the [store/senzing/senzing-package](https://hub.docker.com/_/senzing-package)
-docker image requires acceptance of an End User License agreement (EULA).
-To accept the license:
+1. Accept End User License Agreement (EULA) for `store/senzing/senzing-package` docker image.
+    1. Visit [HOWTO - Accept EULA](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/accept-eula.md#storesenzingsenzing-package-docker-image).
 
-1. Visit [hub.docker.com/_/senzing-package](https://hub.docker.com/_/senzing-package).
-1. Login to DockerHub.
-1. On [hub.docker.com/_/senzing-package](https://hub.docker.com/_/senzing-package), click "Proceed to Checkout" button.
-1. Check boxes for agreeing and acknowledging.
-1. Click "Get Content" button.
-1. Verify image can be pulled from "Docker Store".  Example:
+1. :pencil2: Set environment variables.
+   Example:
 
-   ```console
-   sudo docker pull store/senzing/senzing-package:0.0.1
-   ```
+    ```console
+    export DOCKER_USERNAME=<your-docker-username>
+    export DOCKER_PASSWORD=<your-docker-password>
+
+    export DOCKER_SERVER=https://index.docker.io/v1/
+    export DOCKER_REGISTRY_SECRET=dockerhub-secret
+    ```
+
+1. Create a kubernetes secret.
+   Example:
+
+    ```console
+    kubectl create secret docker-registry ${DOCKER_REGISTRY_SECRET} \
+      --namespace ${DEMO_NAMESPACE} \
+      --docker-server ${DOCKER_SERVER} \
+      --docker-username ${DOCKER_USERNAME} \
+      --docker-password ${DOCKER_PASSWORD}
+    ```
+
+1. References:
+    1. [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 
 ### Kafka initialization
 
@@ -179,33 +195,22 @@ To accept the license:
 
 ### Database initialization
 
-#### Obtain correct SQL file
+#### Obtain SQL file
 
 1. For **IBM Db2** use one of these techniques:
     1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-create.sql`
-    1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-create.sql)
+    1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/master/sql/g2core-schema-db2-create.sql)
     1. Using `curl`.  Example:
 
         ```console
         curl -X GET \
           --output /tmp/g2core-schema-db2-create.sql \
-          https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-create.sql
-        ```
-
-1. For **IBM Db2 BLU** use one of these techniques:
-    1. In local git clone at `${GIT_REPOSITORY_DIR}/sql/g2core-schema-db2-BLU-create.sql`
-    1. [On GitHub](https://github.com/Senzing/ibm-icp4d-guide/blob/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql)
-    1. Using `curl`.  Example:
-
-        ```console
-        curl -X GET \
-          --output /tmp/g2core-schema-db2-BLU-create.sql \
-          https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/issue-1.dockter.1/sql/g2core-schema-db2-BLU-create.sql
+          https://raw.githubusercontent.com/Senzing/ibm-icp4d-guide/master/sql/g2core-schema-db2-create.sql
         ```
 
 #### Run SQL file
 
-1. Variation #1. Create tables in the database using command line.  Example:
+1. Variation #1. Create tables in the database using command line.
 
     1. If needed, create a database for Senzing data.  Example:
 
@@ -228,14 +233,14 @@ To accept the license:
         db2 connect to ${DB2_DATABASE} user ${DB2_USER}
         ```
 
-        Submit password.
+        When requested, supply password.
 
         ```console
         db2 -tvf g2core-schema-db2-create.sql
         db2 terminate
         ```
 
-1. Variation #2.  **FIXME:** Using the IBM Cloud Private for Data console with DB2 Advanced ...
+1. Variation #2.  **FIXME:** Using the IBM Cloud Pak for Data console with DB2 Advanced ...
     1. Home > My data > Databases
         1. Open tile for desired database
         1. Click on the ellipse, click on "Open"
@@ -355,7 +360,8 @@ To accept the license:
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-package)
     1. [Docker](https://hub.docker.com/r/senzing/senzing-package)
 
-1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-package.yaml`.
+1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-package.yaml`.
+    1. `imagePullSecrets.name` needs to be modified with the value of ${DOCKER_REGISTRY_SECRET}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
 1. Perform Helm install.  Example:
@@ -386,11 +392,12 @@ To accept the license:
 ### Install senzing-debug Helm Chart
 
 This deployment will be used later to:
-    * Inspect the `/opt/senzing` volume
-    * Copy files onto the Persistent Volume
-    * Debug issues
 
-1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml`.
+* Inspect the `/opt/senzing` volume
+* Copy files onto the Persistent Volume
+* Debug issues
+
+1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
@@ -404,11 +411,24 @@ This deployment will be used later to:
        senzing/senzing-debug
     ```
 
-1. :pencil2: Find and enter pod.  Example:
+1. In a separate terminal window, log into debug pod.
+
+    :pencil2:  Set environment variables.  Example:
 
     ```console
-    kubectl get pods --namespace ${DEMO_NAMESPACE}
-    export DEBUG_POD_NAME=senzing-debug-XXXXXX
+    export DEMO_NAMESPACE=zen
+    ```
+
+    Log into pod.  Example:
+
+    ```console
+    export DEBUG_POD_NAME=$(kubectl get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --output jsonpath="{.items[0].metadata.name}" \
+      --selector "app.kubernetes.io/name=senzing-debug, \
+                  app.kubernetes.io/instance=senzing-debug" \
+      )
+
     kubectl exec -it --namespace ${DEMO_NAMESPACE} ${DEBUG_POD_NAME} -- /bin/bash
     ```
 
@@ -421,7 +441,6 @@ and this step may be skipped.
 
 1. If working with more than 10,000 records,
    [obtain a Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/obtain-senzing-license.md).
-   (FIXME: Method not established.)
 
 1. Be sure the `senzing-debug` Helm Chart has been installed.
    See "[Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)".
@@ -460,7 +479,7 @@ different components that feed Kafka.
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-mock-data-generator)
     1. [Docker](https://hub.docker.com/r/senzing/mock-data-generator)
 
-1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/mock-data-generator-kafka.yaml`.
+1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/mock-data-generator-kafka.yaml`.
     1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
     1. `senzing.inputUrl` is a URL addressable file of JSON LINES. (e.g. `file://`, `http://`).
     1. `senzing.recordMax` is the maximum number of JSON LINES to read from the file.
@@ -485,7 +504,7 @@ different components that feed Kafka.
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-stream-loader)
     1. [Docker](https://hub.docker.com/r/senzing/stream-loader)
 
-1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/stream-loader-kafka.yaml`.
+1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/stream-loader-kafka.yaml`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.kafkaBootstrapServerHost` is the value of ${KAFKA_HOST}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
@@ -510,7 +529,7 @@ different components that feed Kafka.
     1. [Helm chart](https://github.com/Senzing/charts/tree/master/charts/senzing-api-server)
     1. [Docker](https://hub.docker.com/r/senzing/senzing-api-server)
 
-1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-api-server`.
+1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-api-server`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
     1. `senzing.optSenzingClaim` is the Persistent Volume Claim for use by Senzing as `/opt/senzing`.
 
