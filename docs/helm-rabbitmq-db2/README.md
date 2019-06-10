@@ -109,22 +109,34 @@ The Git repository has files that will be used in the `helm install --values` pa
       --filename ${GIT_REPOSITORY_DIR}/kubernetes/enable-docker-io.yaml
     ```
 
-### Docker images
+### Enable Docker images
 
-The use of the [store/senzing/senzing-package](https://hub.docker.com/_/senzing-package)
-docker image requires acceptance of an End User License agreement (EULA).
-To accept the license:
+1. Accept End User License Agreement (EULA) for `store/senzing/senzing-package` docker image.
+    1. Visit [HOWTO - Accept EULA](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/accept-eula.md#storesenzingsenzing-package-docker-image).
 
-1. Visit [hub.docker.com/_/senzing-package](https://hub.docker.com/_/senzing-package).
-1. Login to DockerHub.
-1. On [hub.docker.com/_/senzing-package](https://hub.docker.com/_/senzing-package), click "Proceed to Checkout" button.
-1. Check boxes for agreeing and acknowledging.
-1. Click "Get Content" button.
-1. Verify image can be pulled from "Docker Store".  Example:
+1. :pencil2: Set environment variables.
+   Example:
 
-   ```console
-   sudo docker pull store/senzing/senzing-package:0.0.1
-   ```
+    ```console
+    export DOCKER_USERNAME=<your-docker-username>
+    export DOCKER_PASSWORD=<your-docker-password>
+
+    export DOCKER_SERVER=https://index.docker.io/v1/
+    ```
+
+1. Create a kubernetes secret.
+   Example:
+
+    ```console
+    kubectl create secret docker-registry ${DOCKER_REGISTRY_SECRET} \
+      --namespace ${DEMO_NAMESPACE} \
+      --docker-server ${DOCKER_SERVER} \
+      --docker-username ${DOCKER_USERNAME} \
+      --docker-password ${DOCKER_PASSWORD}
+    ```
+
+1. References:
+    1. [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 
 ### Database initialization
 
@@ -278,12 +290,6 @@ To accept the license:
 
 ### Add helm repositories
 
-1. Add Bitnami repository.  Example:
-
-    ```console
-    helm repo add bitnami https://charts.bitnami.com
-    ```
-
 1. Add Senzing Helm repository.  Example:
 
     ```console
@@ -407,7 +413,7 @@ and this step may be skipped.
 
    References:
     1. [GitHub repository](https://github.com/bitnami/bitnami-docker-rabbitmq)
-    1. [Helm chart](https://github.com/bitnami/charts/tree/master/upstreamed/rabbitmq)
+    1. [Helm chart](https://github.com/helm/charts/tree/master/stable/rabbitmq)
     1. [Docker](https://hub.docker.com/r/bitnami/rabbitmq)
 
 1. :pencil2: Review helm values in `${GIT_REPOSITORY_DIR}/helm-values/rabbitmq.yaml`.
@@ -424,7 +430,7 @@ and this step may be skipped.
       --name senzing-rabbitmq \
       --namespace ${DEMO_NAMESPACE} \
       --values ${GIT_REPOSITORY_DIR}/helm-values/rabbitmq.yaml \
-      bitnami/rabbitmq
+      stable/rabbitmq
     ```
 
 1. In a separate terminal window, port forward to local machine.
