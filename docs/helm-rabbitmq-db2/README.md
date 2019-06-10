@@ -157,7 +157,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 #### Run SQL file
 
-1. Variation #1. Create tables in the database using command line.  Example:
+1. Variation #1. Create tables in the database using command line.
 
     1. If needed, create a database for Senzing data.  Example:
 
