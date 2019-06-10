@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository illustrates a reference implementation of Senzing on the IBM Cloud Private for Data.
+This repository illustrates a reference implementation of Senzing on the IBM Cloud Pak for Data.
 
 The instructions show how to set up a system that:
 
@@ -13,7 +13,7 @@ The instructions show how to set up a system that:
     1. In this implementation, Senzing keeps its data in an IBM Db2 database.
 1. Reads information from Senzing via [Senzing REST API](https://github.com/Senzing/senzing-rest-api) server.
 
-The following diagram shows the relationship of the Helm charts, docker containers, and code in this IBM Cloud Private for Data reference implementation.
+The following diagram shows the relationship of the Helm charts, docker containers, and code in this IBM Cloud Pak for Data reference implementation.
 
 ![Image of architecture](architecture.png)
 
@@ -187,7 +187,7 @@ The Git repository has files that will be used in the `helm install --values` pa
         db2 terminate
         ```
 
-1. Variation #2.  **FIXME:** Using the IBM Cloud Private for Data console with DB2 Advanced ...
+1. Variation #2.  **FIXME:** Using the IBM Cloud Pak for Data console with DB2 Advanced ...
     1. Home > My data > Databases
         1. Open tile for desired database
         1. Click on the ellipse, click on "Open"
@@ -339,9 +339,10 @@ The Git repository has files that will be used in the `helm install --values` pa
 ### Install senzing-debug Helm Chart
 
 This deployment will be used later to:
-    * Inspect the `/opt/senzing` volume
-    * Copy files onto the Persistent Volume
-    * Debug issues
+
+* Inspect the `/opt/senzing` volume
+* Copy files onto the Persistent Volume
+* Debug issues
 
 1. :pencil2: Modify helm values in `${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml`.
     1. `senzing.databaseUrl` is the value of ${SENZING_DATABASE_URL}.
