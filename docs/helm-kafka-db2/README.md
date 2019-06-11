@@ -216,7 +216,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
         ```console
         su - db2inst1
-        export DB2_DATABASE=g2
+        export DB2_DATABASE=G2
 
         source sqllib/db2profile
         db2 create database ${DB2_DATABASE} using codeset utf-8 territory us
@@ -226,7 +226,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
         ```console
         su - db2inst1
-        export DB2_DATABASE=g2
+        export DB2_DATABASE=G2
         export DB2_USER=db2inst1
 
         source sqllib/db2profile
