@@ -1,3 +1,6 @@
+persistence:
+   existingClaim: user-home-pvc
+
 rabbitmq:
   password: passw0rd
   username: user
