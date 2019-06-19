@@ -484,8 +484,8 @@ Example:
       ${MY_DB2DSDRIVER_FILE}
     ```
 
-1. Modify `${MY_DB2DSDRIVER_FILE}` (i.e. the local copy of `db2dsdriver.cfg`).
-   Add the following:
+1. Edit the `${MY_DB2DSDRIVER_FILE}` file (i.e. the local copy of `db2dsdriver.cfg`).
+   Add the following lines:
 
     ```xml
     <parameter name="SecurityTransportMode" value="SSL"/>
