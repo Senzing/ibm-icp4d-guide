@@ -36,6 +36,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Deploy Senzing_API.tgz package](#deploy-senzing_apitgz-package)
     1. [Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)
     1. [Install Senzing license](#install-senzing-license)
+    1. [Optional TLS enablement](#optional-tls-enablement)
     1. [Install RabbitMQ Helm Chart](#install-rabbitmq-helm-chart)
     1. [Install mock-data-generator Helm chart](#install-mock-data-generator-helm-chart)
     1. [Install stream-loader Helm chart](#install-stream-loader-helm-chart)
@@ -415,11 +416,13 @@ and this step may be skipped.
 
 ### Optional TLS enablement
 
-If Db2 is not Transport Layer Security (TLS) enabled,
+If Db2 is not enabled for Transport Layer Security (TLS),
 the "Optional TLS enablement" section my be skipped.
 
-If using Db2 with TLS, the `db2dsdriver.cfg` file needs to be modified and
-"key database" and "stash" files need to be added.
+If using Db2 with TLS, the `db2dsdriver.cfg` file needs to be modified.
+Also, "key database" and "stash" files need to be added.
+
+Example:
 
 1. Be sure the `senzing-debug` Helm Chart has been installed.
    See "[Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)".
@@ -466,7 +469,7 @@ If using Db2 with TLS, the `db2dsdriver.cfg` file needs to be modified and
 
 1. Download current `db2dsdriver.cfg` from pod.
 
-    :pencil2: Identify a location of where to put `db2dsdriver.cfg` on local workstation.  Example:
+    :pencil2: Identify a location on the local workstation of where to put `db2dsdriver.cfg`.  Example:
 
     ```console
     export MY_DB2DSDRIVER_FILE=/path/to/local/db2dsdriver.cfg
@@ -485,9 +488,9 @@ If using Db2 with TLS, the `db2dsdriver.cfg` file needs to be modified and
    Add the following:
 
     ```xml
-      <parameter name="SecurityTransportMode" value="SSL"/>
-      <parameter name="SSLClientKeystoredb"   value="/opt/senzing/db2/clientstore.kdb"/>
-      <parameter name="SSLClientKeystash"     value="/opt/senzing/db2/clientstore.sth"/>
+    <parameter name="SecurityTransportMode" value="SSL"/>
+    <parameter name="SSLClientKeystoredb"   value="/opt/senzing/db2/clientstore.kdb"/>
+    <parameter name="SSLClientKeystash"     value="/opt/senzing/db2/clientstore.sth"/>
     ```
 
     Example:
