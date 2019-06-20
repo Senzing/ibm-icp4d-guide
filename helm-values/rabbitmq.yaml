@@ -1,6 +1,16 @@
 persistence:
-   existingClaim: user-home-pvc
+  storageClass: "oketi-gluster"
+  enabled: true
 
 rabbitmq:
   password: passw0rd
   username: user
+
+volumePermissions:
+  enabled: false
+
+livenessProbe:
+  enabled: false
+
+readinessProbe:
+  enabled: false
