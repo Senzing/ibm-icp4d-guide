@@ -159,7 +159,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     ```console
     kubectl create \
       --namespace ${DEMO_NAMESPACE} \
-      --filename ${GIT_REPOSITORY_DIR}/kubernetes/senzing-persistent-volume-claim.yaml
+      --filename ${GIT_REPOSITORY_DIR}/kubernetes/senzing-pvc.yaml
     ```
 
 ### Database initialization
