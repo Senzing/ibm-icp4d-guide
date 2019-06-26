@@ -25,9 +25,10 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Background knowledge](#background-knowledge)
 1. [Prerequisites](#prerequisites)
     1. [Clone repository](#clone-repository)
+    1. [Set namespace](#set-namespace)
     1. [Registry authorization](#registry-authorization)
     1. [Enable Docker images](#enable-docker-images)
-    1. [Create Persistent Volume](#create-persistent-volume)
+    1. [Create Persistent Volumes](#create-persistent-volumes)
     1. [Database initialization](#database-initialization)
     1. [Database tuning](#database-tuning)
     1. [Database connection information](#database-connection-information)
@@ -456,7 +457,8 @@ and this step may be skipped.
 ### Optional TLS enablement
 
 If Db2 is not enabled for Transport Layer Security (TLS),
-the "Optional TLS enablement" section my be skipped.
+the "Optional TLS enablement" section my be skipped by proceeding to
+"[Install RabbitMQ Helm Chart](#install-rabbitmq-helm-chart)."
 
 If using Db2 with TLS, the `db2dsdriver.cfg` file needs to be modified.
 Also, "key database" and "stash" files need to be added.
