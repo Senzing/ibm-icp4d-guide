@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: senzing-persistent-volume
+  name: senzing-pvc
 spec:
   accessModes:
     - ReadWriteMany

@@ -10,7 +10,7 @@ senzing:
   entityType: PEOPLE
   logLevel: info
   monitoringPeriod: 60
-  optSenzingClaim: senzing-persistent-volume
+  optSenzingClaim: senzing-pvc
   rabbitmqHost: senzing-rabbitmq
   rabbitmqPassword: passw0rd
   rabbitmqQueue: senzing-rabbitmq-queue
