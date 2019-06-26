@@ -27,6 +27,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Clone repository](#clone-repository)
     1. [Registry authorization](#registry-authorization)
     1. [Enable Docker images](#enable-docker-images)
+    1. [Create Persistent Volume](#create-persistent-volume)
     1. [Database initialization](#database-initialization)
     1. [Database tuning](#database-tuning)
     1. [Database connection information](#database-connection-information)
@@ -148,6 +149,36 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 1. References:
     1. [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
+
+### Create Persistent Volume
+
+1. Create Persistent Volume (PV).
+   Example:
+
+    ```console
+    kubectl create \
+      --namespace ${DEMO_NAMESPACE} \
+      --filename ${GIT_REPOSITORY_DIR}/kubernetes/senzing-persistent-volume.yaml
+    ```
+
+1. Create Persistent Volume Claim (PVC).
+   Example:
+
+    ```console
+    kubectl create \
+      --namespace ${DEMO_NAMESPACE} \
+      --filename ${GIT_REPOSITORY_DIR}/kubernetes/senzing-persistent-volume-claim.yaml
+    ```
+
+1. Review persistent volumes and claims.
+
+    ```console
+    kubectl get persistentvolumes \
+      --namespace ${DEMO_NAMESPACE}
+
+    kubectl get persistentvolumeClaims \
+      --namespace ${DEMO_NAMESPACE}
+    ```
 
 ### Database initialization
 
@@ -279,7 +310,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Environment variables that need customization.  Example:
 
     ```console
-    export DEMO_NAMESPACE=zen
+    export DEMO_NAMESPACE=senzing
     ```
 
 1. If using Transport Layer Security (TLS), then set the following environment variable:
@@ -372,7 +403,7 @@ This deployment will be used later to:
     :pencil2:  Set environment variables.  Example:
 
     ```console
-    export DEMO_NAMESPACE=zen
+    export DEMO_NAMESPACE=senzing
     ```
 
     Log into pod.  Example:
@@ -563,7 +594,7 @@ Example:
     :pencil2: Set environment variables.  Example:
 
     ```console
-    export DEMO_NAMESPACE=zen
+    export DEMO_NAMESPACE=senzing
     ```
 
     Port forward.  Example:
@@ -663,7 +694,7 @@ different components that feed RabbitMQ.
     :pencil2: Set environment variables.  Example:
 
     ```console
-    export DEMO_NAMESPACE=zen
+    export DEMO_NAMESPACE=senzing
     export SENZING_API_PORT=8889
     ```
 
