@@ -2,7 +2,9 @@
 
 ## Overview
 
-This repository illustrates a reference implementation of Senzing on the IBM Cloud Private for Data.
+This repository illustrates a reference implementation of
+[Senzing](https://senzing.com) on
+[IBM Cloud Pak for Data](https://www.ibm.com/products/cloud-pak-for-data).
 
 The instructions show how to set up a system that:
 
@@ -11,7 +13,8 @@ The instructions show how to set up a system that:
 1. Reads messages from the queue and inserts into Senzing.
 1. Reads information from Senzing via [Senzing REST API](https://github.com/Senzing/senzing-rest-api) server.
 
-The following diagram shows the relationship of the Helm charts, docker containers, and code in this IBM Cloud Private for Data reference implementation.
+The following diagram shows the relationship of the Helm charts, docker containers,
+and code in this IBM Cloud Pak for Data reference implementation.
 
 ![Image of architecture](docs/img-architecture/architecture.png)
 
@@ -29,5 +32,5 @@ The following table indicates the instructions for variations in components.
 
     | Queue    | Database   | Instructions | Comments |
     |----------|------------|:------------:|----------|
-    | RabbitMQ | Db2        | [:page_facing_up:](docs/helm-rabbitmq-db2/README.md) | Recommended implementation |
+    | RabbitMQ | Db2        | [:page_facing_up:](docs/helm-rabbitmq-db2/README.md) | Recommended implementation. |
     | Kafka    | Db2        | [:page_facing_up:](docs/helm-kafka-db2/README.md) |
