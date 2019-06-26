@@ -115,6 +115,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
     ```console
     kubectl apply \
+      --namespace ${DEMO_NAMESPACE} \
       --filename ${GIT_REPOSITORY_DIR}/kubernetes/enable-docker-io.yaml
     ```
 
