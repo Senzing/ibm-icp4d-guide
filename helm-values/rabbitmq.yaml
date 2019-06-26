@@ -1,3 +1,10 @@
+persistence:
+  storageClass: "oketi-gluster"
+  enabled: true
+
 rabbitmq:
   password: passw0rd
   username: user
+
+volumePermissions:
+  enabled: false

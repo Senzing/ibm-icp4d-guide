@@ -36,6 +36,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Deploy Senzing_API.tgz package](#deploy-senzing_apitgz-package)
     1. [Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)
     1. [Install Senzing license](#install-senzing-license)
+    1. [Optional TLS enablement](#optional-tls-enablement)
     1. [Install RabbitMQ Helm Chart](#install-rabbitmq-helm-chart)
     1. [Install mock-data-generator Helm chart](#install-mock-data-generator-helm-chart)
     1. [Install stream-loader Helm chart](#install-stream-loader-helm-chart)
@@ -412,6 +413,116 @@ and this step may be skipped.
 
 1. Note: `/opt/senzing` is attached as a Kubernetes Persistent Volume Claim (PVC),
    so the license will be seen by all pods that attach to the PVC.
+
+### Optional TLS enablement
+
+If Db2 is not enabled for Transport Layer Security (TLS),
+the "Optional TLS enablement" section my be skipped.
+
+If using Db2 with TLS, the `db2dsdriver.cfg` file needs to be modified.
+Also, "key database" and "stash" files need to be added.
+
+Example:
+
+1. Be sure the `senzing-debug` Helm Chart has been installed.
+   See "[Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)".
+
+1. Generate "key database" and "stash" files.
+    1. References:
+        1. [Configuring Secure Sockets Layer (SSL) support in non-Java Db2 client](https://www.ibm.com/support/knowledgecenter/en/SSEPGG_11.1.0/com.ibm.db2.luw.admin.sec.doc/doc/t0053518.html)
+
+1. Copy the "key database" file to the `senzing-debug` pod
+   at `/opt/senzing/db2/clientstore.kdb`.
+
+    :pencil2: Identify location of `.kbd` on local workstation.  Example:
+
+    ```console
+    export DB2_KEY_DATABASE_FILE=/path/to/local/mydbclient.kbd
+    ```
+
+    Copy file to debug pod.  Example:
+
+    ```console
+    kubectl cp \
+      --namespace ${DEMO_NAMESPACE} \
+      ${DB2_KEY_DATABASE_FILE} \
+      ${DEBUG_POD_NAME}:/opt/senzing/db2/clientstore.kdb
+    ```
+
+1. Copy the "stash" file to the `senzing-debug` pod
+   at `/opt/senzing/db2/clientstore.sth`.
+
+    :pencil2: Identify location of `.sth` on local workstation.  Example:
+
+    ```console
+    export DB2_STASH_FILE=/path/to/local/mydbclient.sth
+    ```
+
+    Copy file to debug pod.  Example:
+
+    ```console
+    kubectl cp \
+      --namespace ${DEMO_NAMESPACE} \
+      ${DB2_STASH_FILE} \
+      ${DEBUG_POD_NAME}:/opt/senzing/db2/clientstore.sth
+    ```
+
+1. Download current `db2dsdriver.cfg` from pod.
+
+    :pencil2: Identify a location on the local workstation of where to put `db2dsdriver.cfg`.  Example:
+
+    ```console
+    export MY_DB2DSDRIVER_FILE=/path/to/local/db2dsdriver.cfg
+    ```
+
+    Copy file from debug pod.  Example:
+
+    ```console
+    kubectl cp \
+      --namespace ${DEMO_NAMESPACE} \
+      ${DEBUG_POD_NAME}:/opt/senzing/db2/clidriver/cfg/db2dsdriver.cfg \
+      ${MY_DB2DSDRIVER_FILE}
+    ```
+
+1. Edit the `${MY_DB2DSDRIVER_FILE}` file (i.e. the local copy of `db2dsdriver.cfg`).
+   Add the following lines:
+
+    ```xml
+    <parameter name="SecurityTransportMode" value="SSL"/>
+    <parameter name="SSLClientKeystoredb"   value="/opt/senzing/db2/clientstore.kdb"/>
+    <parameter name="SSLClientKeystash"     value="/opt/senzing/db2/clientstore.sth"/>
+    ```
+
+    Example:
+
+    ```xml
+    <configuration>
+      <dsncollection>
+        <dsn alias="{SCHEMA}" name="{SCHEMA}" host="{HOST}" port="{PORT}" />
+      </dsncollection>
+      <databases>
+        <database name="{SCHEMA}" host="{HOST}" port="{PORT}">
+          <parameter name="CommProtocol" value="TCPIP"/>
+          <parameter name="SecurityTransportMode" value="SSL"/>
+          <parameter name="SSLClientKeystoredb"   value="/opt/senzing/db2/clientstore.kdb"/>
+          <parameter name="SSLClientKeystash"     value="/opt/senzing/db2/clientstore.sth"/>
+        </database>
+      </databases>
+    </configuration>
+    ```
+
+1. Upload modified `db2dsdriver.cfg` to pod.
+
+    ```console
+    kubectl cp \
+      --namespace ${DEMO_NAMESPACE} \
+      ${MY_DB2DSDRIVER_FILE} \
+      ${DEBUG_POD_NAME}:/opt/senzing/db2/clidriver/cfg/db2dsdriver.cfg
+    ```
+
+1. Note: `/opt/senzing` is attached as a Kubernetes Persistent Volume Claim (PVC),
+   so the `clientstore.kdb`, `clientstore.sth`, and modified `db2dsdriver.cfg`
+   files will be seen by all pods that attach to the PVC.
 
 ### Install RabbitMQ Helm chart
 
