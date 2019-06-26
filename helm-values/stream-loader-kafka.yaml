@@ -13,5 +13,5 @@ senzing:
   kafkaTopic: senzing-kafka-topic
   logLevel: info
   monitoringPeriod: 60
-  optSenzingClaim: user-home-pvc
+  optSenzingClaim: senzing-persistent-volume
   threadsPerProcess: 4

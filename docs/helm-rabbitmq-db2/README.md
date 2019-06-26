@@ -151,16 +151,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. References:
     1. [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 
-### Create Persistent Volumes
-
-1. Create Persistent Volume (PV).
-   Example:
-
-    ```console
-    kubectl create \
-      --namespace ${DEMO_NAMESPACE} \
-      --filename ${GIT_REPOSITORY_DIR}/kubernetes/senzing-persistent-volume.yaml
-    ```
+### Create Persistent Volume Claim
 
 1. Create Persistent Volume Claim (PVC).
    Example:
@@ -169,16 +160,6 @@ The Git repository has files that will be used in the `helm install --values` pa
     kubectl create \
       --namespace ${DEMO_NAMESPACE} \
       --filename ${GIT_REPOSITORY_DIR}/kubernetes/senzing-persistent-volume-claim.yaml
-    ```
-
-1. Review persistent volumes and claims.
-
-    ```console
-    kubectl get persistentvolumes \
-      --namespace ${DEMO_NAMESPACE}
-
-    kubectl get persistentvolumeClaims \
-      --namespace ${DEMO_NAMESPACE}
     ```
 
 ### Database initialization
