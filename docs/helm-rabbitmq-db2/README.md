@@ -25,8 +25,10 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Background knowledge](#background-knowledge)
 1. [Prerequisites](#prerequisites)
     1. [Clone repository](#clone-repository)
+    1. [Set namespace](#set-namespace)
     1. [Registry authorization](#registry-authorization)
     1. [Enable Docker images](#enable-docker-images)
+    1. [Create Persistent Volumes](#create-persistent-volumes)
     1. [Database initialization](#database-initialization)
     1. [Database tuning](#database-tuning)
     1. [Database connection information](#database-connection-information)
@@ -148,6 +150,17 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 1. References:
     1. [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
+
+### Create Persistent Volume Claim
+
+1. Create Persistent Volume Claim (PVC).
+   Example:
+
+    ```console
+    kubectl create \
+      --namespace ${DEMO_NAMESPACE} \
+      --filename ${GIT_REPOSITORY_DIR}/kubernetes/senzing-persistent-volume-claim.yaml
+    ```
 
 ### Database initialization
 
@@ -279,7 +292,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Environment variables that need customization.  Example:
 
     ```console
-    export DEMO_NAMESPACE=zen
+    export DEMO_NAMESPACE=senzing
     ```
 
 1. If using Transport Layer Security (TLS), then set the following environment variable:
@@ -372,7 +385,7 @@ This deployment will be used later to:
     :pencil2:  Set environment variables.  Example:
 
     ```console
-    export DEMO_NAMESPACE=zen
+    export DEMO_NAMESPACE=senzing
     ```
 
     Log into pod.  Example:
@@ -425,7 +438,8 @@ and this step may be skipped.
 ### Optional TLS enablement
 
 If Db2 is not enabled for Transport Layer Security (TLS),
-the "Optional TLS enablement" section my be skipped.
+the "Optional TLS enablement" section my be skipped by proceeding to
+"[Install RabbitMQ Helm Chart](#install-rabbitmq-helm-chart)."
 
 If using Db2 with TLS, the `db2dsdriver.cfg` file needs to be modified.
 Also, "key database" and "stash" files need to be added.
@@ -563,7 +577,7 @@ Example:
     :pencil2: Set environment variables.  Example:
 
     ```console
-    export DEMO_NAMESPACE=zen
+    export DEMO_NAMESPACE=senzing
     ```
 
     Port forward.  Example:
@@ -663,7 +677,7 @@ different components that feed RabbitMQ.
     :pencil2: Set environment variables.  Example:
 
     ```console
-    export DEMO_NAMESPACE=zen
+    export DEMO_NAMESPACE=senzing
     export SENZING_API_PORT=8889
     ```
 
