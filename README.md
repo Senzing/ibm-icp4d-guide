@@ -27,7 +27,7 @@ The following table indicates the instructions for variations in components.
         1. Db2
 1. Implementations of the docker formation:
 
-    | Queue    | Database   | Instructions |
-    |----------|------------|:------------:|
-    | RabbitMQ | Db2        | [:page_facing_up:](docs/helm-rabbitmq-db2/README.md) |
+    | Queue    | Database   | Instructions | Comments |
+    |----------|------------|:------------:|----------|
+    | RabbitMQ | Db2        | [:page_facing_up:](docs/helm-rabbitmq-db2/README.md) | Recommended implementation |
     | Kafka    | Db2        | [:page_facing_up:](docs/helm-kafka-db2/README.md) |

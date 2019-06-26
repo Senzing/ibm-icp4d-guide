@@ -150,7 +150,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. References:
     1. [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 
-### Create Persistent Volume
+### Create Persistent Volumes
 
 1. Create Persistent Volume (PV).
    Example:
