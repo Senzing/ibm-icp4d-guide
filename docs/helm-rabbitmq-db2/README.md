@@ -28,7 +28,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Set namespace](#set-namespace)
     1. [Registry authorization](#registry-authorization)
     1. [Enable Docker images](#enable-docker-images)
-    1. [Create Persistent Volumes](#create-persistent-volumes)
+    1. [Create Persistent Volume Claims](#create-persistent-volume-claims)
     1. [Database initialization](#database-initialization)
     1. [Database tuning](#database-tuning)
     1. [Database connection information](#database-connection-information)
