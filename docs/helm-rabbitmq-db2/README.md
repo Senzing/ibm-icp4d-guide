@@ -93,6 +93,19 @@ The Git repository has files that will be used in the `helm install --values` pa
 1. Environment variable for namespace.  Example:
 
     ```console
+    export DEMO_NAMESPACE=senzing
+    ```
+
+1. Create namespace
+   Example:
+
+    ```console
+    kubectl create namespace ${DEMO_NAMESPACE}
+    ```
+
+1. Environment variable for namespace.  Example:
+
+    ```console
     export DEMO_NAMESPACE=zen
     ```
 
