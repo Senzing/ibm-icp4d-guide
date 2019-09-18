@@ -37,13 +37,13 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Registry authorization](#registry-authorization)
     1. [Deploy Senzing RPM](#deploy-senzing-rpm)
     1. [Install IBM Db2 Driver Helm chart](#install-ibm-db2-driver-helm-chart)
-    1. [Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)
+    1. [Install senzing-debug Helm chart](#install-senzing-debug-helm-chart)
     1. [Install Senzing license](#install-senzing-license)
     1. [Get Senzing schema sql for Db2](#get-senzing-schema-sql-for-db2)
     1. [Create Senzing schema on Db2](#create-senzing-schema-on-db2)
     1. [Database tuning](#database-tuning)
     1. [Optional TLS enablement](#optional-tls-enablement)
-    1. [Install RabbitMQ Helm Chart](#install-rabbitmq-helm-chart)
+    1. [Install RabbitMQ Helm chart](#install-rabbitmq-helm-chart)
     1. [Install mock-data-generator Helm chart](#install-mock-data-generator-helm-chart)
     1. [Install init-container Helm chart](#install-init-container-helm-chart)
     1. [Install configurator Helm chart](#install-configurator-helm-chart)
@@ -382,7 +382,7 @@ This deployment will be used later to:
     export DEMO_NAMESPACE=senzing
     ```
 
-    Log into pod.  Example:
+    Identify the pod.  Example:
 
     ```console
     export DEBUG_POD_NAME=$(kubectl get pods \
@@ -391,8 +391,6 @@ This deployment will be used later to:
       --selector "app.kubernetes.io/name=senzing-debug, \
                   app.kubernetes.io/instance=senzing-debug" \
       )
-
-    kubectl exec -it --namespace ${DEMO_NAMESPACE} ${DEBUG_POD_NAME} -- /bin/bash
     ```
 
 1. To use senzing-debug pod, see [View Senzing Debug pod](#view-senzing-debug-pod).
@@ -407,8 +405,8 @@ and this step may be skipped.
 1. If working with more than 10,000 records,
    [obtain a Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/obtain-senzing-license.md).
 
-1. Be sure the `senzing-debug` Helm Chart has been installed and is running.
-   See "[Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)".
+1. Be sure the `senzing-debug` Helm chart has been installed and is running.
+   See "[Install senzing-debug Helm chart](#install-senzing-debug-helm-chart)".
 
 1. Copy the `g2.lic` file to the `senzing-debug` pod
    at `/opt/senzing/g2/data/g2.lic`.
@@ -437,8 +435,8 @@ and this step may be skipped.
 
 This step copies the SQL file used to create the Senzing database schema onto the local workstation.
 
-1. Be sure the `senzing-debug` Helm Chart has been installed and is runnning.
-   See "[Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)".
+1. Be sure the `senzing-debug` Helm chart has been installed and is runnning.
+   See "[Install senzing-debug Helm chart](#install-senzing-debug-helm-chart)".
 
 1. Copy the `/opt/senzing/g2/resources/schema/g2core-schema-db2-create.sql`
    file from the `senzing-debug` pod.
@@ -554,15 +552,15 @@ This step copies the SQL file used to create the Senzing database schema onto th
 
 If Db2 is not enabled for Transport Layer Security (TLS),
 the "Optional TLS enablement" section my be skipped by proceeding to
-"[Install RabbitMQ Helm Chart](#install-rabbitmq-helm-chart)."
+"[Install RabbitMQ Helm chart](#install-rabbitmq-helm-chart)."
 
 If using Db2 with TLS, the `db2dsdriver.cfg` file needs to be modified.
 Also, "key database" and "stash" files need to be added.
 
 Example:
 
-1. Be sure the `senzing-debug` Helm Chart has been installed.
-   See "[Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)".
+1. Be sure the `senzing-debug` Helm chart has been installed.
+   See "[Install senzing-debug Helm chart](#install-senzing-debug-helm-chart)".
 
 1. Generate "key database" and "stash" files.
     1. References:
