@@ -685,8 +685,8 @@ Example:
 
 ### Install mock-data-generator Helm chart
 
-:warning:  **FIXME:**  This is a **mock** data generator.
-In production, this component is replaced by
+:warning: This is a **mock** data generator.
+In production, this component should be replaced by
 different components that feed RabbitMQ.
 
 The mock data generator pulls JSON lines from a file and pushes them to RabbitMQ.
@@ -819,12 +819,14 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
 
     ```console
     export DEMO_PREFIX=my
-    export DEMO_NAMESPACE=${DEMO_PREFIX}-namespace
+    export DEMO_NAMESPACE=senzing
     ```
 
 #### View Senzing Debug pod
 
-1. In a separate terminal window, log into debug pod.
+In a separate terminal window, log into debug pod.
+
+1. Identify the name of the pod.
    Example:
 
     ```console
@@ -834,7 +836,12 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
       --selector "app.kubernetes.io/name=senzing-debug, \
                   app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-debug" \
       )
+    ```
 
+1. Log into debug pod.
+   Example:
+
+    ```console
     kubectl exec -it --namespace ${DEMO_NAMESPACE} ${DEBUG_POD_NAME} -- /bin/bash
     ```
 
@@ -866,14 +873,22 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
       svc/${DEMO_PREFIX}-senzing-configurator 5001:5000
     ```
 
-1. Make HTTP calls via `curl`.
-   Example:
+1. Configurator will be viewable at [localhost:5001/datasources](http://localhost:5001/datasources).
 
-    ```console
-    export SENZING_API_SERVICE=http://localhost:5001
+1. View results from Senzing REST API server.
+   The server supports the
+   [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
+   1. From a web browser.
+      Examples:
+      1. [localhost:5001/datasources](http://localhost:5001/datasources)
+   1. From `curl`.
+      Examples:
 
-    curl -X GET ${SENZING_API_SERVICE}/datasources
-    ```
+        ```console
+        export SENZING_CONFIGURATOR_SERVICE=http://localhost:5001
+
+        curl -X GET ${SENZING_CONFIGURATOR_SERVICE}/datasources
+        ```
 
 #### View Senzing API Server
 
@@ -887,16 +902,24 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
       svc/${DEMO_PREFIX}-senzing-api-server 8889:8080
     ```
 
-1. Make HTTP calls via `curl`.
-   Example:
+1. View results from Senzing REST API server.
+   The server supports the
+   [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
+   1. From a web browser.
+      Examples:
+      1. [localhost:8889/heartbeat](http://localhost:8889/heartbeat)
+      1. [localhost:8889/license](http://localhost:8889/license)
+      1. [localhost:8889/entities/1](http://localhost:8889/entities/1)
+   1. From `curl`.
+      Examples:
 
-    ```console
-    export SENZING_API_SERVICE=http://localhost:8889
+        ```console
+        export SENZING_API_SERVICE=http://localhost:8889
 
-    curl -X GET ${SENZING_API_SERVICE}/heartbeat
-    curl -X GET ${SENZING_API_SERVICE}/license
-    curl -X GET ${SENZING_API_SERVICE}/entities/1
-    ```
+        curl -X GET ${SENZING_API_SERVICE}/heartbeat
+        curl -X GET ${SENZING_API_SERVICE}/license
+        curl -X GET ${SENZING_API_SERVICE}/entities/1
+        ```
 
 #### View Senzing Entity Search WebApp
 
