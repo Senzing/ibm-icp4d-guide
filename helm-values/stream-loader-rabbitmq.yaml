@@ -6,11 +6,11 @@ replicaCount: 10
 senzing:
   subcommand: rabbitmq
   databaseUrl: "${SENZING_DATABASE_URL}"
-  dataSource: PEOPLE
-  entityType: PEOPLE
+  dataSource: TEST
+  entityType: TEST
   logLevel: info
   monitoringPeriod: 60
-  optSenzingClaim: senzing-pvc
+  persistentVolumeClaim: senzing-pvc
   rabbitmqHost: senzing-rabbitmq
   rabbitmqPassword: passw0rd
   rabbitmqQueue: senzing-rabbitmq-queue

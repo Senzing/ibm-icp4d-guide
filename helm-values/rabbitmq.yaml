@@ -1,6 +1,6 @@
 persistence:
-  storageClass: "oketi-gluster"
   enabled: true
+  storageClass: "oketi-gluster"
 
 rabbitmq:
   password: passw0rd

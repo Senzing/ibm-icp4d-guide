@@ -3,4 +3,4 @@ image:
 
 senzing:
   databaseUrl: "${SENZING_DATABASE_URL}"
-  optSenzingClaim: senzing-pvc
+  persistentVolumeClaim: senzing-pvc
