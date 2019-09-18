@@ -85,15 +85,18 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 1. Follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md) to install the Git repository.
 
+## Demonstrate
+
 ### Set namespace
 
-1. Environment variable for namespace.  Example:
+1. :pencil2: Environment variable for namespace.
+   Example:
 
     ```console
     export DEMO_NAMESPACE=senzing
     ```
 
-1. Create namespace
+1. Create namespace.
    Example:
 
     ```console
@@ -106,7 +109,7 @@ The Git repository has files that will be used in the `helm install --values` pa
    visit the "Customizing your policy (post installation)" section of
    [Enforcing container image security](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/manage_images/image_security.html).
 
-1. Review / modify ${GIT_REPOSITORY_DIR}/kubernetes/enable-docker-io.yaml
+1. :pencil2: Review and potentially modify `${GIT_REPOSITORY_DIR}/kubernetes/enable-docker-io.yaml`
 
 1. Apply policy.  Example:
 
@@ -116,37 +119,9 @@ The Git repository has files that will be used in the `helm install --values` pa
       --filename ${GIT_REPOSITORY_DIR}/kubernetes/enable-docker-io.yaml
     ```
 
-### Enable Docker images
-
-1. Accept End User License Agreement (EULA) for `store/senzing/senzing-package` docker image.
-    1. Visit [HOWTO - Accept EULA](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/accept-eula.md#storesenzingsenzing-package-docker-image).
-
-1. :pencil2: Set environment variables.
-   Example:
-
-    ```console
-    export DOCKER_USERNAME=<your-docker-username>
-    export DOCKER_PASSWORD=<your-docker-password>
-
-    export DOCKER_SERVER=https://index.docker.io/v1/
-    export DOCKER_REGISTRY_SECRET=dockerhub-secret
-    ```
-
-1. Create a kubernetes secret.
-   Example:
-
-    ```console
-    kubectl create secret docker-registry ${DOCKER_REGISTRY_SECRET} \
-      --namespace ${DEMO_NAMESPACE} \
-      --docker-server ${DOCKER_SERVER} \
-      --docker-username ${DOCKER_USERNAME} \
-      --docker-password ${DOCKER_PASSWORD}
-    ```
-
-1. References:
-    1. [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
-
 ### Create Persistent Volume Claim
+
+1. :pencil2: Review and potentially modify `${GIT_REPOSITORY_DIR}/kubernetes/senzing-pvc.yaml`
 
 1. Create Persistent Volume Claim (PVC).
    Example:
@@ -156,6 +131,190 @@ The Git repository has files that will be used in the `helm install --values` pa
       --namespace ${DEMO_NAMESPACE} \
       --filename ${GIT_REPOSITORY_DIR}/kubernetes/senzing-pvc.yaml
     ```
+
+### Add helm repositories
+
+1. Add Senzing repository.
+   Example:
+
+    ```console
+    helm repo add senzing https://senzing.github.io/charts/
+    ```
+
+1. Update repositories.
+   Example:
+
+    ```console
+    helm repo update
+    ```
+
+1. :thinking: **Optional:**
+   Review repositories.
+   Example:
+
+    ```console
+    helm repo list
+    ```
+
+1. Reference: [helm repo](https://helm.sh/docs/helm/#helm-repo)
+
+### Deploy Senzing RPM
+
+:thinking: This deployment initializes the Persistent Volume with Senzing code and data.
+There are two methods of accomplishing this.
+Only one method needs to be performed.
+
+#### root container method
+
+**Method #1:** This method is simpler, but requires a root container.
+
+1. :pencil2: Modify `${GIT_REPOSITORY_DIR}/helm-values/senzing-yum.yaml`
+    1. See [SENZING_ACCEPT_EULA](https://github.com/Senzing/knowledge-base/blob/master/lists/environment-variables.md#senzing_accept_eula) for the value of `${SENZING_ACCEPT_EULA}`.
+
+1. Install chart.
+   Example:
+
+    ```console
+    helm install \
+      --name ${DEMO_PREFIX}-senzing-yum \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-yum.yaml \
+      senzing/senzing-yum
+    ```
+
+1. Wait until Job has completed.
+   Example:
+
+    ```console
+    kubectl get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --watch
+    ```
+
+1. Example of completion:
+
+    ```console
+    NAME                       READY   STATUS      RESTARTS   AGE
+    my-senzing-yum-8n2ql       0/1     Completed   0          2m44s
+    ```
+
+#### Non-root container method
+
+**Method #2:** This method can be done on kubernetes with a non-root container.
+
+1. Install chart with non-root container.
+   This pod will be the recipient of a `docker cp` command.
+   Example:
+
+    ```console
+    helm install \
+      --name ${DEMO_PREFIX}-senzing-base \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-base.yaml \
+       senzing/senzing-base
+    ```
+
+1. The following instructions are done on a non-kubernetes machine which allows root docker containers.
+   Example:  a personal laptop.
+
+1. :pencil2: Set environment variables.
+   **Note:** See [SENZING_ACCEPT_EULA](https://github.com/Senzing/knowledge-base/blob/master/lists/environment-variables.md#senzing_accept_eula) for correct value.
+   Example:
+
+    ```console
+    export DEMO_PREFIX=my
+    export DEMO_NAMESPACE=${DEMO_PREFIX}-namespace
+
+    export SENZING_ACCEPT_EULA=put-in-correct-value
+    export SENZING_VOLUME=/opt/my-senzing
+
+    export SENZING_DATA_DIR=${SENZING_VOLUME}/data
+    export SENZING_G2_DIR=${SENZING_VOLUME}/g2
+    export SENZING_ETC_DIR=${SENZING_VOLUME}/etc
+    export SENZING_VAR_DIR=${SENZING_VOLUME}/var
+    ```
+
+1. Run docker image.
+   Example:
+
+    ```console
+    sudo docker run \
+      --env SENZING_ACCEPT_EULA=${SENZING_ACCEPT_EULA} \
+      --rm \
+      --volume ${SENZING_DATA_DIR}:/opt/senzing/data \
+      --volume ${SENZING_G2_DIR}:/opt/senzing/g2 \
+      --volume ${SENZING_ETC_DIR}:/etc/opt/senzing \
+      --volume ${SENZING_VAR_DIR}:/var/opt/senzing \
+      senzing/yum
+    ```
+
+1. Copy files from local machine to `senzing-base` pod.
+   Example:
+
+    ```console
+    export SENZING_BASE_POD_NAME=$(kubectl get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --output jsonpath="{.items[0].metadata.name}" \
+      --selector "app.kubernetes.io/name=senzing-base, \
+                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-base" \
+      )
+
+    kubectl cp ${SENZING_DATA_DIR} ${DEMO_NAMESPACE}/${SENZING_BASE_POD_NAME}:/opt/senzing/senzing-data
+    kubectl cp ${SENZING_G2_DIR}   ${DEMO_NAMESPACE}/${SENZING_BASE_POD_NAME}:/opt/senzing/senzing-g2
+    kubectl cp ${SENZING_ETC_DIR}  ${DEMO_NAMESPACE}/${SENZING_BASE_POD_NAME}:/opt/senzing/senzing-etc
+    kubectl cp ${SENZING_VAR_DIR}  ${DEMO_NAMESPACE}/${SENZING_BASE_POD_NAME}:/opt/senzing/senzing-var
+    ```
+
+### Install IBM Db2 Driver
+
+This step adds the IBM Db2 Client driver code.
+
+1. Install chart.
+   Example:
+
+    ```console
+    helm install \
+      --name ${DEMO_PREFIX}-ibm-db2-driver-installer \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${GIT_REPOSITORY_DIR}/helm-values/ibm-db2-driver-installer.yaml \
+      senzing/ibm-db2-driver-installer
+    ```
+
+1. Wait until Jobs have completed.
+   Example:
+
+    ```console
+    kubectl get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --watch
+    ```
+
+1. Example of completion:
+
+    ```console
+    NAME                               READY  STATUS     RESTARTS  AGE
+    my-ibm-db2-driver-installer-z8d45  0/1    Completed  0         1m35s
+    ```
+
+### Install senzing-debug Helm chart
+
+This deployment will be used later to:
+
+- Inspect mounted volumes
+- Debug issues
+
+1. Install chart.
+   Example:
+
+    ```console
+    helm install \
+      --name ${DEMO_PREFIX}-senzing-debug \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${GIT_REPOSITORY_DIR}/helm-values/senzing-debug.yaml \
+       senzing/senzing-debug
+    ```
+
+1. To use senzing-debug pod, see [View Senzing Debug pod](#view-senzing-debug-pod).
 
 ### Database initialization
 
@@ -280,7 +439,6 @@ The Git repository has files that will be used in the `helm install --values` pa
     1. Bottom
     1. "Access Information" section
 
-## Demonstrate
 
 ### Set environment variables
 
