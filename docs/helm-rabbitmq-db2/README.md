@@ -25,25 +25,32 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Background knowledge](#background-knowledge)
 1. [Prerequisites](#prerequisites)
     1. [Clone repository](#clone-repository)
-    1. [Set namespace](#set-namespace)
-    1. [Registry authorization](#registry-authorization)
-    1. [Enable Docker images](#enable-docker-images)
-    1. [Create Persistent Volume Claims](#create-persistent-volume-claims)
-    1. [Database initialization](#database-initialization)
-    1. [Database tuning](#database-tuning)
-    1. [Database connection information](#database-connection-information)
-1. [Demonstrate](#demonstrate)
+    1. [EULA](#eula)
     1. [Set environment variables](#set-environment-variables)
-    1. [Add helm repositories](#add-helm-repositories)
-    1. [Deploy Senzing_API.tgz package](#deploy-senzing_apitgz-package)
+    1. [Database connection information](#database-connection-information)
+    1. [Create custom Helm values files](#create-custom-helm-values-files)
+    1. [Create custom kubernetes configuration files](#create-custom-kubernetes-configuration-files)
+1. [Demonstrate](#demonstrate)
+    1. [Create namespace](#create-namespace)
+    1. [Create Persistent Volume Claims](#create-persistent-volume-claims)
+    1. [Add Helm repositories](#add-helm-repositories)
+    1. [Registry authorization](#registry-authorization)
+    1. [Deploy Senzing RPM](#deploy-senzing-rpm)
+    1. [Install IBM Db2 Driver Helm chart](#install-ibm-db2-driver-helm-chart)
     1. [Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)
     1. [Install Senzing license](#install-senzing-license)
+    1. [Get Senzing schema sql for Db2](#get-senzing-schema-sql-for-db2)
+    1. [Create Senzing schema on Db2](#create-senzing-schema-on-db2)
+    1. [Database tuning](#database-tuning)
     1. [Optional TLS enablement](#optional-tls-enablement)
     1. [Install RabbitMQ Helm Chart](#install-rabbitmq-helm-chart)
     1. [Install mock-data-generator Helm chart](#install-mock-data-generator-helm-chart)
+    1. [Install init-container Helm chart](#install-init-container-helm-chart)
+    1. [Install configurator Helm chart](#install-configurator-helm-chart)
     1. [Install stream-loader Helm chart](#install-stream-loader-helm-chart)
     1. [Install senzing-api-server Helm chart](#install-senzing-api-server-helm-chart)
-    1. [Test Senzing REST API server](#test-senzing-rest-api-server)
+    1. [Install senzing-entity-search-web-app Helm chart](#install-senzing-entity-search-web-app-helm-chart)
+    1. [View data](#view-data)
 1. [Cleanup](#cleanup)
     1. [Delete Helm charts](#delete-helm-charts)
     1. [Delete database tables](#delete-database-tables)
@@ -156,7 +163,7 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
     echo ${SENZING_DATABASE_URL}
     ```
 
-### Create custom helm values files
+### Create custom Helm values files
 
 :thinking: In this step, Helm template files are populated with actual values.
 There are two methods of accomplishing this.
@@ -244,7 +251,7 @@ Only one method needs to be performed.
     kubectl get namespaces
     ```
 
-### Create Persistent Volume Claim
+### Create Persistent Volume Claims
 
 1. Create Persistent Volume Claim (PVC).
    Example:
@@ -268,7 +275,7 @@ Only one method needs to be performed.
       --namespace ${DEMO_NAMESPACE}
     ```
 
-### Add helm repositories
+### Add Helm repositories
 
 1. Add Senzing repository.
    Example:
@@ -325,7 +332,7 @@ This deployment initializes the Persistent Volume with Senzing code and data.
       senzing/senzing-yum
     ```
 
-### Install IBM Db2 Driver
+### Install IBM Db2 Driver Helm chart
 
 This deployment adds the IBM Db2 Client driver code to the Persistent Volume.
 
