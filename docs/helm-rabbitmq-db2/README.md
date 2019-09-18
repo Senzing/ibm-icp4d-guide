@@ -319,7 +319,7 @@ Only one method needs to be performed.
 
 ### Deploy Senzing RPM
 
-This deployment initializes the Persistent Volume with Senzing code and data.
+This deployment adds Senzing code and data to the Persistent Volume.
 
 1. Install chart.
    Example:
@@ -359,7 +359,7 @@ This deployment will be used later to:
 
     ```console
     helm install ${HELM_TLS} \
-      --name senzing-debug \
+      --name ${DEMO_PREFIX}-senzing-debug \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-debug.yaml \
        senzing/senzing-debug
@@ -930,7 +930,6 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-init-container
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-mock-data-generator
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-rabbitmq
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-ibm-db2
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-debug
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-ibm-db2-driver-installer
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-yum
