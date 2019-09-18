@@ -1,3 +1,9 @@
+image:
+  registry: ${DOCKER_REGISTRY_URL}
+
+imagePullSecrets:
+  - name: ${DOCKER_REGISTRY_SECRET}
+
 persistence:
   enabled: true
   storageClass: "oketi-gluster"
@@ -7,4 +13,4 @@ rabbitmq:
   username: user
 
 volumePermissions:
-  enabled: false
+  enabled: true

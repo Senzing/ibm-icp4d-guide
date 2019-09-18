@@ -1,6 +1,9 @@
 image:
-  pullPolicy: Always
+  registry: ${DOCKER_REGISTRY_URL}
 
+imagePullSecrets:
+  - name: ${DOCKER_REGISTRY_SECRET}
+  
 replicaCount: 10
 
 senzing:
@@ -10,8 +13,8 @@ senzing:
   entityType: TEST
   logLevel: info
   monitoringPeriod: 60
-  persistentVolumeClaim: senzing-pvc
-  rabbitmqHost: senzing-rabbitmq
+  persistentVolumeClaim: senzing-persistent-volume-claim
+  rabbitmqHost: ${DEMO_PREFIX}-rabbitmq
   rabbitmqPassword: passw0rd
   rabbitmqQueue: senzing-rabbitmq-queue
   rabbitmqUsername: user
