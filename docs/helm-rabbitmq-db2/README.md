@@ -235,22 +235,6 @@ Only one method needs to be performed.
 
 ## Demonstrate
 
-### Create namespace
-
-1. Create namespace.
-   Example:
-
-    ```console
-    kubectl create -f ${KUBERNETES_DIR}/namespace.yaml
-    ```
-
-1. :thinking: **Optional:**
-   Review namespaces.
-
-    ```console
-    kubectl get namespaces
-    ```
-
 ### Create Persistent Volume Claims
 
 1. Create Persistent Volume Claim (PVC).
