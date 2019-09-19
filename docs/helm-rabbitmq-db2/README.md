@@ -242,6 +242,7 @@ Only one method needs to be performed.
 
     ```console
     kubectl create \
+      --namespace ${DEMO_NAMESPACE} \
       --filename ${KUBERNETES_DIR}/persistent-volume-claim-senzing.yaml
     ```
 
