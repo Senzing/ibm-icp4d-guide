@@ -249,7 +249,7 @@ Only one method needs to be performed.
    Review persistent volumes and claims.
 
     ```console
-    kubectl get persistentvolumes \
+    kubectl get persistentvolumeclaims \
       --namespace ${DEMO_NAMESPACE}
     ```
 
