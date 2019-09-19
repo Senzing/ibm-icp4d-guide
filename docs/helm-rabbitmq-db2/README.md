@@ -243,9 +243,6 @@ Only one method needs to be performed.
     ```console
     kubectl create \
       --filename ${KUBERNETES_DIR}/persistent-volume-claim-senzing.yaml
-
-    kubectl create \
-      --filename ${KUBERNETES_DIR}/persistent-volume-claim-rabbitmq.yaml
     ```
 
 1. :thinking: **Optional:**
@@ -253,9 +250,6 @@ Only one method needs to be performed.
 
     ```console
     kubectl get persistentvolumes \
-      --namespace ${DEMO_NAMESPACE}
-
-    kubectl get persistentvolumeClaims \
       --namespace ${DEMO_NAMESPACE}
     ```
 
