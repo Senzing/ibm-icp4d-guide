@@ -827,31 +827,11 @@ In a separate terminal window, log into debug pod.
 
 #### View RabbitMQ
 
-1. In a separate terminal window, port forward to local machine.
-   Example:
-
-    ```console
-    kubectl port-forward \
-      --address 0.0.0.0 \
-      --namespace ${DEMO_NAMESPACE} \
-      svc/${DEMO_PREFIX}-rabbitmq 15672:15672
-    ```
-
 1. RabbitMQ will be viewable at [localhost:15672](http://localhost:15672).
     1. Login
         1. See `helm-values/rabbitmq.yaml` for Username and password.
 
 #### View Senzing Configurator
-
-1. In a separate terminal window, port forward to local machine.
-   Example:
-
-    ```console
-    kubectl port-forward \
-      --address 0.0.0.0 \
-      --namespace ${DEMO_NAMESPACE} \
-      svc/${DEMO_PREFIX}-senzing-configurator 5001:5000
-    ```
 
 1. Configurator will be viewable at [localhost:5001/datasources](http://localhost:5001/datasources).
 
@@ -871,16 +851,6 @@ In a separate terminal window, log into debug pod.
         ```
 
 #### View Senzing API Server
-
-1. In a separate terminal window, port forward to local machine.
-   Example:
-
-    ```console
-    kubectl port-forward \
-      --address 0.0.0.0 \
-      --namespace ${DEMO_NAMESPACE} \
-      svc/${DEMO_PREFIX}-senzing-api-server 8889:8080
-    ```
 
 1. View results from Senzing REST API server.
    The server supports the
@@ -903,16 +873,6 @@ In a separate terminal window, log into debug pod.
 
 #### View Senzing Entity Search WebApp
 
-1. In a separate terminal window, port forward to local machine.
-   Example:
-
-    ```console
-    kubectl port-forward \
-      --address 0.0.0.0 \
-      --namespace ${DEMO_NAMESPACE} \
-      svc/${DEMO_PREFIX}-senzing-entity-search-web-app 8888:80
-    ```
-
 1. Senzing Entity Search WebApp will be viewable at [localhost:8888](http://localhost:8888).
    The [demonstration](https://github.com/Senzing/knowledge-base/blob/master/demonstrations/docker-compose-web-app.md)
    instructions will give a tour of the Senzing web app.
@@ -930,7 +890,7 @@ In a separate terminal window, log into debug pod.
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-configurator
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-init-container
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-mock-data-generator
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-rabbitmq
+    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-rabbitmq
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-debug
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-ibm-db2-driver-installer
     helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-yum
