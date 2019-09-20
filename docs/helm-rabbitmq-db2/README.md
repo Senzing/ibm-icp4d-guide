@@ -368,7 +368,7 @@ This deployment will be used later to:
     export DEBUG_POD_NAME=$(kubectl get pods \
       --namespace ${DEMO_NAMESPACE} \
       --output jsonpath="{.items[0].metadata.name}" \
-      --selector "app.kubernetes.io/name=${DEMO_PREFIX}-senzing-debug, \
+      --selector "app.kubernetes.io/name=senzing-debug, \
                   app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-debug" \
       )
     ```
