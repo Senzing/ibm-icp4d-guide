@@ -7,3 +7,6 @@ imagePullSecrets:
 senzing:
   apiServerUrl: "http://${DEMO_PREFIX}-senzing-api-server:8080"
 
+service:
+  nodePort: 31114
+  type: NodePort

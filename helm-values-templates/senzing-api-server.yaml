@@ -9,3 +9,7 @@ senzing:
   concurrency: 8
   iniFile: /etc/opt/senzing/G2Module.ini
   persistentVolumeClaim: senzing-persistent-volume-claim
+
+service:
+  nodePort: 31113
+  type: NodePort
