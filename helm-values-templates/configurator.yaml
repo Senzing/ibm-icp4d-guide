@@ -8,3 +8,8 @@ senzing:
   databaseUrl: "${SENZING_DATABASE_URL}"
   persistentVolumeClaim: senzing-persistent-volume-claim
   subcommand: service
+
+service:
+  port: 5000
+  nodePort: 31111
+  type: NodePort
