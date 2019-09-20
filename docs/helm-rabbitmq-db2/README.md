@@ -358,6 +358,7 @@ This deployment will be used later to:
     :pencil2:  Set environment variables.  Example:
 
     ```console
+    export DEMO_PREFIX=my
     export DEMO_NAMESPACE=zen
     ```
 
@@ -367,8 +368,8 @@ This deployment will be used later to:
     export DEBUG_POD_NAME=$(kubectl get pods \
       --namespace ${DEMO_NAMESPACE} \
       --output jsonpath="{.items[0].metadata.name}" \
-      --selector "app.kubernetes.io/name=senzing-debug, \
-                  app.kubernetes.io/instance=senzing-debug" \
+      --selector "app.kubernetes.io/name=${DEMO_PREFIX}-senzing-debug, \
+                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-debug" \
       )
     ```
 
