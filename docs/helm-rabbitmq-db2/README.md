@@ -799,7 +799,17 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
 
     ```console
     export DEMO_PREFIX=my
-    export DEMO_NAMESPACE=senzing
+    export DEMO_NAMESPACE=zen
+    ```
+
+1. Get kubernetes master node IP address.
+   Example:
+
+    ```console
+    export K8S_MASTER_IP=$(kubectl get nodes \
+      --namespace ${DEMO_NAMESPACE} \
+      --output jsonpath="{.items[0].metadata.name}" \
+    )
     ```
 
 #### View Senzing Debug pod
@@ -827,28 +837,22 @@ In a separate terminal window, log into debug pod.
 
 #### View RabbitMQ
 
-1. RabbitMQ will be viewable at [localhost:15672](http://localhost:15672).
+1. RabbitMQ will be viewable at `http://${K8S_MASTER_IP}:31111`.
     1. Login
         1. See `helm-values/rabbitmq.yaml` for Username and password.
 
 #### View Senzing Configurator
 
-1. Configurator will be viewable at [localhost:5001/datasources](http://localhost:5001/datasources).
+1. Configurator will be viewable at `http://${K8S_MASTER_IP}:31112/datasources'.
 
-1. View results from Senzing REST API server.
-   The server supports the
-   [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
-   1. From a web browser.
-      Examples:
-      1. [localhost:5001/datasources](http://localhost:5001/datasources)
-   1. From `curl`.
-      Examples:
+1. From `curl`.
+   Examples:
 
-        ```console
-        export SENZING_CONFIGURATOR_SERVICE=http://localhost:5001
+    ```console
+    export SENZING_CONFIGURATOR_SERVICE=http://${K8S_MASTER_IP}:31112
 
-        curl -X GET ${SENZING_CONFIGURATOR_SERVICE}/datasources
-        ```
+    curl -X GET ${SENZING_CONFIGURATOR_SERVICE}/datasources
+    ```
 
 #### View Senzing API Server
 
@@ -857,14 +861,14 @@ In a separate terminal window, log into debug pod.
    [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
    1. From a web browser.
       Examples:
-      1. [localhost:8889/heartbeat](http://localhost:8889/heartbeat)
-      1. [localhost:8889/license](http://localhost:8889/license)
-      1. [localhost:8889/entities/1](http://localhost:8889/entities/1)
+      1. `http://${K8S_MASTER_IP}:31113/heartbeat`
+      1. `http://${K8S_MASTER_IP}:31113/license`
+      1. `http://${K8S_MASTER_IP}:31113/entities/1`
    1. From `curl`.
       Examples:
 
         ```console
-        export SENZING_API_SERVICE=http://localhost:8889
+        export SENZING_API_SERVICE=http://${K8S_MASTER_IP}:31113
 
         curl -X GET ${SENZING_API_SERVICE}/heartbeat
         curl -X GET ${SENZING_API_SERVICE}/license
@@ -873,7 +877,8 @@ In a separate terminal window, log into debug pod.
 
 #### View Senzing Entity Search WebApp
 
-1. Senzing Entity Search WebApp will be viewable at [localhost:8888](http://localhost:8888).
+1. Senzing Entity Search WebApp will be viewable at `http://${K8S_MASTER_IP}:31114`.
+
    The [demonstration](https://github.com/Senzing/knowledge-base/blob/master/demonstrations/docker-compose-web-app.md)
    instructions will give a tour of the Senzing web app.
 
