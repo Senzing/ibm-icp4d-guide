@@ -358,7 +358,7 @@ This deployment will be used later to:
     :pencil2:  Set environment variables.  Example:
 
     ```console
-    export DEMO_NAMESPACE=senzing
+    export DEMO_NAMESPACE=zen
     ```
 
     Identify the pod.  Example:
