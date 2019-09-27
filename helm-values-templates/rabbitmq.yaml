@@ -5,16 +5,16 @@ imagePullSecrets:
   - name: ${DOCKER_REGISTRY_SECRET}
 
 persistence:
-  enabled: false
-# enabled: true
-# storageClass: "oketi-gluster"
+# enabled: false
+  enabled: true
+  storageClass: "oketi-gluster"
 
 rabbitmq:
   password: passw0rd
   username: user
 
-# volumePermissions:
-#   enabled: true
+volumePermissions:
+  enabled: true
 
 service:
   nodePort: 31111
