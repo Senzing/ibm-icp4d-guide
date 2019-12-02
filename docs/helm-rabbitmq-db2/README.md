@@ -194,7 +194,7 @@ Only one method needs to be performed.
 
     :pencil2: Edit files in ${HELM_VALUES_DIR} replacing the following variables with actual values.
 
-    1. `${DEMO_PREFIX}`
+    1. `${DEMO_NAMESPACE}`
     1. `${DOCKER_REGISTRY_SECRET}`
     1. `${DOCKER_REGISTRY_URL}`
     1. `${SENZING_ACCEPT_EULA}`
@@ -640,6 +640,14 @@ Example:
    files will be seen by all pods that attach to the PVC.
 
 ### Install RabbitMQ Helm chart
+
+1. Allow elevated permissions for `stable/rabbitmq` chart.
+   Example:
+
+   ```console
+   kubectl set subject clusterrolebinding ibm-privileged-psp-users \
+     --serviceaccount=${DEMO_NAMESPACE}:${DEMO_PREFIX}-rabbitmq
+   ```
 
 1. Install chart.
    Example:
