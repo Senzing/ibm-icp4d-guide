@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: senzing-pvc
+  name: senzing-persistent-volume-claim
 spec:
   accessModes:
-    - ReadWriteMany
-  volumeMode: Filesystem
+  - ReadWriteMany
   resources:
     requests:
       storage: 20Gi
   storageClassName: oketi-gluster
+  volumeMode: Filesystem

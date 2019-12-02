@@ -1,5 +1,5 @@
 image:
-  pullPolicy: Always
+  registry: ${DOCKER_REGISTRY_URL}
 
 imagePullSecrets:
   - name: ${DOCKER_REGISTRY_SECRET}
@@ -11,5 +11,4 @@ securityContext:
   fsGroup: 0
 
 senzing:
-  optSenzingClaim: senzing-pvc
-  subcommand: install
+  persistentVolumeClaim: senzing-persistent-volume-claim

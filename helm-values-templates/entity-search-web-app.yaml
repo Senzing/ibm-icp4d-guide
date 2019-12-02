@@ -1,0 +1,12 @@
+image:
+  registry: ${DOCKER_REGISTRY_URL}
+
+imagePullSecrets:
+  - name: ${DOCKER_REGISTRY_SECRET}
+
+senzing:
+  apiServerUrl: "http://${DEMO_PREFIX}-senzing-api-server:8080"
+
+service:
+  nodePort: 31114
+  type: NodePort

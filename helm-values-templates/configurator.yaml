@@ -1,0 +1,14 @@
+image:
+  registry: ${DOCKER_REGISTRY_URL}
+
+imagePullSecrets:
+  - name: ${DOCKER_REGISTRY_SECRET}
+
+senzing:
+  databaseUrl: "${SENZING_DATABASE_URL}"
+  persistentVolumeClaim: senzing-persistent-volume-claim
+  subcommand: service
+
+service:
+  nodePort: 31112
+  type: NodePort
