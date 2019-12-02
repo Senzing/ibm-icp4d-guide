@@ -1,5 +1,12 @@
 # ibm-icp4d-guide
 
+## :no_entry: Deprecated
+
+This repository has been deprecated and has been replaced by
+[Senzing/ibm-openshift-guide](https://github.com/Senzing/ibm-openshift-guide).
+
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 ## Overview
 
 This repository illustrates a reference implementation of
